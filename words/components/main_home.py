@@ -93,7 +93,7 @@ def main_home() -> rx.Component:
                         rx.alert_dialog_content(
                             rx.alert_dialog_header("New tropy!"),
                             rx.alert_dialog_body(
-                                f"Trophy {State.trophy_number_to_show} - {State.trophy_description_to_show}: {State.data["word"]}.\nCongratulations!"
+                                f"Trophy {State.trophy_number_to_show} - {State.trophy_description_to_show}: {State.data['word']}.\nCongratulations!"
                             ),
                             rx.alert_dialog_footer(
                                 rx.button(
