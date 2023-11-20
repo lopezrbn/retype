@@ -44,8 +44,10 @@ def check_trophy2(State) -> bool:
         SELECT MAX(no_letters)
         FROM words_game.words
     """
-    result = db.connect_to_db(query=query, select=True)
-    if len(State.data["word"]) > result[0][0]:
+    result = db.connect_to_db(query=query, select=True)[0][0]
+    if result is None:
+        result = 0
+    if len(State.data["word"]) > result:
         return True
     else:
         return False

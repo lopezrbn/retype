@@ -1,9 +1,10 @@
 import { Fragment, useContext, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/router"
 import { Event, getAllLocalStorageItems, getRefValue, getRefValues, isTrue, preventDefault, refs, spreadArraysOrObjects, uploadFiles, useEventLoop } from "/utils/state"
-import { EventLoopContext, initialEvents, StateContext } from "/utils/context.js"
+import { ColorModeContext, EventLoopContext, initialEvents, StateContext } from "/utils/context.js"
 import "focus-visible/dist/focus-visible"
-import { Box, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text, useColorMode } from "@chakra-ui/react"
+import { Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Text } from "@chakra-ui/react"
+import { getEventURL } from "/utils/state.js"
 import Error from "next/error"
 import { useClientSideRouting } from "/utils/client_side_routing"
 import NextHead from "next/head"
@@ -13,7 +14,7 @@ import NextHead from "next/head"
 export default function Component() {
   const state = useContext(StateContext)
   const router = useRouter()
-  const { colorMode, toggleColorMode } = useColorMode()
+  const [ colorMode, toggleColorMode ] = useContext(ColorModeContext)
   const focusRef = useRef();
   
   // Main event loop.
@@ -28,7 +29,7 @@ export default function Component() {
 
   // Route after the initial page hydration.
   useEffect(() => {
-    const change_complete = () => addEvents(initialEvents.map((e) => ({...e})))
+    const change_complete = () => addEvents(initialEvents())
     router.events.on('routeChangeComplete', change_complete)
     return () => {
       router.events.off('routeChangeComplete', change_complete)
@@ -49,11 +50,11 @@ export default function Component() {
   {`Connection Error`}
 </ModalHeader>
   <ModalBody>
-  <Text>
+  <Text sx={{"color": "black", "textAlign": "center"}}>
   {`Cannot connect to server: `}
   {(connectError !== null) ? connectError.message : ''}
   {`. Check if server is reachable at `}
-  {`http://localhost:8000`}
+  {getEventURL().href}
 </Text>
 </ModalBody>
 </ModalContent>

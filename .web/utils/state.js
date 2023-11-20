@@ -6,7 +6,7 @@ import env from "env.json";
 import Cookies from "universal-cookie";
 import { useEffect, useReducer, useRef, useState } from "react";
 import Router, { useRouter } from "next/router";
-
+import { initialEvents } from "utils/context.js"
 
 // Endpoint URLs.
 const EVENTURL = env.EVENT
@@ -68,6 +68,24 @@ export const getToken = () => {
 };
 
 /**
+ * Get the URL for the websocket connection
+ * @returns The websocket URL object.
+ */
+export const getEventURL = () => {
+  // Get backend URL object from the endpoint.
+  const endpoint = new URL(EVENTURL);
+  if (endpoint.hostname === "localhost") {
+    // If the backend URL references localhost, and the frontend is not on localhost,
+    // then use the frontend host.
+    const frontend_hostname = window.location.hostname;
+    if (frontend_hostname !== "localhost") {
+      endpoint.hostname = frontend_hostname;
+    }
+  }
+  return endpoint
+}
+
+/**
  * Apply a delta to the state.
  * @param state The state to apply the delta to.
  * @param delta The delta to apply.
@@ -126,28 +144,21 @@ export const applyEvent = async (event, socket) => {
     return false;
   }
 
-  if (event.name == "_set_cookie") {
-    cookies.set(event.payload.key, event.payload.value, { path: "/" });
-    return false;
-  }
-
   if (event.name == "_remove_cookie") {
-    cookies.remove(event.payload.key, { path: "/", ...event.payload.options })
-    return false;
-  }
-
-  if (event.name == "_set_local_storage") {
-    localStorage.setItem(event.payload.key, event.payload.value);
+    cookies.remove(event.payload.key, { ...event.payload.options })
+    queueEvents(initialEvents(), socket)
     return false;
   }
 
   if (event.name == "_clear_local_storage") {
     localStorage.clear();
+    queueEvents(initialEvents(), socket)
     return false;
   }
 
   if (event.name == "_remove_local_storage") {
     localStorage.removeItem(event.payload.key);
+    queueEvents(initialEvents(), socket)
     return false;
   }
 
@@ -160,7 +171,8 @@ export const applyEvent = async (event, socket) => {
     const a = document.createElement('a');
     a.hidden = true;
     a.href = event.payload.url;
-    a.download = event.payload.filename;
+    if (event.payload.filename)
+      a.download = event.payload.filename;
     a.click();
     a.remove();
     return false;
@@ -187,7 +199,14 @@ export const applyEvent = async (event, socket) => {
 
   if (event.name == "_call_script") {
     try {
-      eval(event.payload.javascript_code);
+      const eval_result = eval(event.payload.javascript_code);
+      if (event.payload.callback) {
+        if (!!eval_result && typeof eval_result.then === 'function') {
+          eval(event.payload.callback)(await eval_result)
+        } else {
+          eval(event.payload.callback)(eval_result)
+        }
+      }
     } catch (e) {
       console.log("_call_script", e);
     }
@@ -202,7 +221,7 @@ export const applyEvent = async (event, socket) => {
 
   // Send the event to the server.
   if (socket) {
-    socket.emit("event", JSON.stringify(event));
+    socket.emit("event", JSON.stringify(event, (k, v) => v === undefined ? null : v));
     return true;
   }
 
@@ -289,9 +308,10 @@ export const connect = async (
   client_storage = {},
 ) => {
   // Get backend URL object from the endpoint.
-  const endpoint = new URL(EVENTURL);
+  const endpoint = getEventURL()
+
   // Create the socket.
-  socket.current = io(EVENTURL, {
+  socket.current = io(endpoint.href, {
     path: endpoint["pathname"],
     transports: transports,
     autoUnref: false,
@@ -395,7 +415,10 @@ export const hydrateClientStorage = (client_storage) => {
     for (const state_key in client_storage.cookies) {
       const cookie_options = client_storage.cookies[state_key]
       const cookie_name = cookie_options.name || state_key
-      client_storage_values.cookies[state_key] = cookies.get(cookie_name)
+      const cookie_value = cookies.get(cookie_name)
+      if (cookie_value !== undefined) {
+        client_storage_values.cookies[state_key] = cookies.get(cookie_name)
+      }
     }
   }
   if (client_storage.local_storage && (typeof window !== 'undefined')) {
@@ -449,7 +472,7 @@ const applyClientStorageDelta = (client_storage, delta) => {
 /**
  * Establish websocket event loop for a NextJS page.
  * @param initial_state The initial app state.
- * @param initial_events The initial app events.
+ * @param initial_events Function that returns the initial app events.
  * @param client_storage The client storage object from context.js
  *
  * @returns [state, addEvents, connectError] -
@@ -459,7 +482,7 @@ const applyClientStorageDelta = (client_storage, delta) => {
  */
 export const useEventLoop = (
   initial_state = {},
-  initial_events = [],
+  initial_events = () => [],
   client_storage = {},
 ) => {
   const socket = useRef(null)
@@ -468,8 +491,13 @@ export const useEventLoop = (
   const [connectError, setConnectError] = useState(null)
 
   // Function to add new events to the event queue.
-  const addEvents = (events, _e) => {
-    preventDefault(_e);
+  const addEvents = (events, _e, event_actions) => {
+    if (event_actions?.preventDefault && _e?.preventDefault) {
+      _e.preventDefault();
+    }
+    if (event_actions?.stopPropagation && _e?.stopPropagation) {
+      _e.stopPropagation();
+    }
     queueEvents(events, socket)
   }
 
@@ -477,7 +505,7 @@ export const useEventLoop = (
   // initial state hydrate
   useEffect(() => {
     if (router.isReady && !sentHydrate.current) {
-      addEvents(initial_events.map((e) => ({ ...e })))
+      addEvents(initial_events())
       sentHydrate.current = true
     }
   }, [router.isReady])
@@ -488,17 +516,19 @@ export const useEventLoop = (
     if (!router.isReady) {
       return;
     }
-
-    // Initialize the websocket connection.
-    if (!socket.current) {
-      connect(socket, dispatch, ['websocket', 'polling'], setConnectError, client_storage)
-    }
-    (async () => {
-      // Process all outstanding events.
-      while (event_queue.length > 0 && !event_processing) {
-        await processEvent(socket.current)
+    // only use websockets if state is present
+    if (Object.keys(state).length > 0) {
+      // Initialize the websocket connection.
+      if (!socket.current) {
+        connect(socket, dispatch, ['websocket', 'polling'], setConnectError, client_storage)
       }
-    })()
+      (async () => {
+        // Process all outstanding events.
+        while (event_queue.length > 0 && !event_processing) {
+          await processEvent(socket.current)
+        }
+      })()
+    }
   })
   return [state, addEvents, connectError]
 }
@@ -510,16 +540,6 @@ export const useEventLoop = (
  */
 export const isTrue = (val) => {
   return Array.isArray(val) ? val.length > 0 : !!val;
-};
-
-/**
- * Prevent the default event for form submission.
- * @param event
- */
-export const preventDefault = (event) => {
-  if (event && event.type == "submit") {
-    event.preventDefault();
-  }
 };
 
 /**

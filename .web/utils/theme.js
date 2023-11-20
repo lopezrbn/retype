@@ -1,1 +1,1 @@
-export default {"styles": {"global": {"body": {}}}}
+export default {"styles": {"global": {"body": {"bg": "#ffe5b4"}}}}

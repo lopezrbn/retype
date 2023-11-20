@@ -1,4 +1,10 @@
-*.db
-*.py[cod]
-.web
+*.db
+
+*.py[cod]
+
+.web
+venv
+
 __pycache__/
+
+db_connection.py
