@@ -1,6 +1,6 @@
 import reflex as rx
 from typing import List, Dict, Tuple
-from datetime import timedelta
+from datetime import timedelta, date
 
 import words.database as db
 import words.business_logic as bl
@@ -182,3 +182,8 @@ class State(rx.State):
         return [
             (i+1, word.capitalize()) for i, word in enumerate(self.data["words_log"])
         ]
+    
+
+    @rx.var
+    def date_today(self) -> str:
+        return date.today().strftime("%d %B %Y")

@@ -3,13 +3,17 @@ from enum import Enum
 
 # Constants
 MAX_WIDTH = "560px"
-PRIM_COLOR = "#ffe5b4"  # LIGHT_ORANGE + DARK_ORANGE  Used for background. Usually lighter than SEC_COLOR
-SEC_COLOR = "#ffb347"   # LIGHT_ORANGE + DARK_ORANGE Used for remarking details. Usually darker than PRIM_COLOR
+# PRIM_COLOR = "#ffe5b4"  # LIGHT_ORANGE + DARK_ORANGE  Used for background. Usually lighter than SEC_COLOR
+# SEC_COLOR = "#ffb347"   # LIGHT_ORANGE + DARK_ORANGE Used for remarking details. Usually darker than PRIM_COLOR
+# TEXT_COLOR = "black"
 # PRIM_COLOR = "#f5f5f5"  # WHITE + GRAY  Used for background. Usually lighter than SEC_COLOR
 # SEC_COLOR = "#848482"   # WHITE + GRAY  Used for remarking details. Usually darker than PRIM_COLOR
 # PRIM_COLOR = "#F8F8FF"  # IVORY + GRAY  Used for background. Usually lighter than SEC_COLOR
 # SEC_COLOR = "#848482"   # IVORY + GRAY  Used for remarking details. Usually darker than PRIM_COLOR
-TEXT_COLOR = "black"
+PRIM_COLOR = "#FEFAEB"
+SEC_COLOR = "#FAC934"
+TEXT_COLOR = "#0B3C49"
+
 
 # Sizes
 class Size(Enum):

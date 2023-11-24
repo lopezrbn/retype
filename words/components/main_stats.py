@@ -13,5 +13,5 @@ def main_stats() -> rx.Component:
             ),
         ),
         flex_grow="1",
-        border_width="medium",
+        # border_width="medium",
     )

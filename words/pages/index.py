@@ -11,7 +11,10 @@ def index():
                rx.box(
                   rx.center(
                      rx.vstack(
-                        rx.heading(f"Welcome back to Words, ", State.player_name_cookie, f"!"),
+                        rx.image(
+                            src="/main-logo-transparent.png",
+                        ),
+                        rx.heading(f"Welcome back, ", State.player_name_cookie, f"!"),
                         rx.spacer(),
                         rx.button(
                            "Log in",
@@ -24,6 +27,9 @@ def index():
                rx.box(
                   rx.center(
                      rx.vstack(
+                        rx.image(
+                           src="/main-logo-transparent.png",
+                        ),
                         rx.heading("Welcome to Words!"),
                         rx.spacer(),
                         rx.input(

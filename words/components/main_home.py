@@ -108,5 +108,5 @@ def main_home() -> rx.Component:
             ),
         ),
         flex_grow="1",
-        border_width="medium",
+        # border_width="medium",
     )

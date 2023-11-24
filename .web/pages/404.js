@@ -50,7 +50,7 @@ export default function Component() {
   {`Connection Error`}
 </ModalHeader>
   <ModalBody>
-  <Text sx={{"color": "black", "textAlign": "center"}}>
+  <Text sx={{"color": "#0B3C49", "textAlign": "center"}}>
   {`Cannot connect to server: `}
   {(connectError !== null) ? connectError.message : ''}
   {`. Check if server is reachable at `}

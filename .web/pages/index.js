@@ -3,7 +3,7 @@ import { useRouter } from "next/router"
 import { Event, getAllLocalStorageItems, getRefValue, getRefValues, isTrue, preventDefault, refs, set_val, spreadArraysOrObjects, uploadFiles, useEventLoop } from "/utils/state"
 import { ColorModeContext, EventLoopContext, initialEvents, StateContext } from "/utils/context.js"
 import "focus-visible/dist/focus-visible"
-import { Box, Button, Center, Heading, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Spacer, Text, VStack } from "@chakra-ui/react"
+import { Box, Button, Center, Heading, Image, Input, Modal, ModalBody, ModalContent, ModalHeader, ModalOverlay, Spacer, Text, VStack } from "@chakra-ui/react"
 import { getEventURL } from "/utils/state.js"
 import { DebounceInput } from "react-debounce-input"
 import NextHead from "next/head"
@@ -48,7 +48,7 @@ export default function Component() {
   {`Connection Error`}
 </ModalHeader>
   <ModalBody>
-  <Text sx={{"color": "black", "textAlign": "center"}}>
+  <Text sx={{"color": "#0B3C49", "textAlign": "center"}}>
   {`Cannot connect to server: `}
   {(connectError !== null) ? connectError.message : ''}
   {`. Check if server is reachable at `}
@@ -68,16 +68,17 @@ export default function Component() {
   <Fragment>
   {isTrue(state.player_name_cookie) ? (
   <Fragment>
-  <Box sx={{"margin": "0.5em", "borderRadius": "lg", "borderColor": "#ffb347"}}>
+  <Box sx={{"margin": "0.5em", "borderRadius": "lg", "borderColor": "#FAC934"}}>
   <Center sx={{"height": "90vh"}}>
   <VStack>
-  <Heading sx={{"color": "black", "textAlign": "center", "fontSize": "2em"}}>
-  {`Welcome back to Words, `}
+  <Image src={`/main-logo-transparent.png`}/>
+  <Heading sx={{"color": "#0B3C49", "textAlign": "center", "fontSize": "2em"}}>
+  {`Welcome back, `}
   {state.player_name_cookie}
   {`!`}
 </Heading>
   <Spacer/>
-  <Button onClick={(_e) => addEvents([Event("state.login_handler", {})], (_e), {})} sx={{"display": "block", "padding": "0.5em", "borderRadius": "0.8em", "bg": "#ffb347", "color": "black"}}>
+  <Button onClick={(_e) => addEvents([Event("state.login_handler", {})], (_e), {})} sx={{"display": "block", "padding": "0.5em", "borderRadius": "0.8em", "bg": "#FAC934", "color": "#0B3C49"}}>
   {`Log in`}
 </Button>
 </VStack>
@@ -86,16 +87,17 @@ export default function Component() {
 </Fragment>
 ) : (
   <Fragment>
-  <Box sx={{"margin": "0.5em", "borderRadius": "lg", "borderColor": "#ffb347"}}>
+  <Box sx={{"margin": "0.5em", "borderRadius": "lg", "borderColor": "#FAC934"}}>
   <Center sx={{"height": "90vh"}}>
   <VStack>
-  <Heading sx={{"color": "black", "textAlign": "center", "fontSize": "2em"}}>
+  <Image src={`/main-logo-transparent.png`}/>
+  <Heading sx={{"color": "#0B3C49", "textAlign": "center", "fontSize": "2em"}}>
   {`Welcome to Words!`}
 </Heading>
   <Spacer/>
-  <DebounceInput debounceTimeout={50} element={Input} onChange={(_e0) => addEvents([Event("state.set_text_player_name_input", {value:_e0.target.value})], (_e0), {})} placeholder={`Enter your name`} sx={{"borderColor": "#ffb347", "borderWidth": "medium", "color": "black"}} type={`text`} value={state.text_player_name_input}/>
+  <DebounceInput debounceTimeout={50} element={Input} onChange={(_e0) => addEvents([Event("state.set_text_player_name_input", {value:_e0.target.value})], (_e0), {})} placeholder={`Enter your name`} sx={{"borderColor": "#FAC934", "borderWidth": "medium", "color": "#0B3C49"}} type={`text`} value={state.text_player_name_input}/>
   <Spacer/>
-  <Button onClick={(_e) => addEvents([Event("state.write_cookies", {player_name:state.text_player_name_input})], (_e), {})} sx={{"display": "block", "padding": "0.5em", "borderRadius": "0.8em", "bg": "#ffb347", "color": "black"}}>
+  <Button onClick={(_e) => addEvents([Event("state.write_cookies", {player_name:state.text_player_name_input})], (_e), {})} sx={{"display": "block", "padding": "0.5em", "borderRadius": "0.8em", "bg": "#FAC934", "color": "#0B3C49"}}>
   {`Log in`}
 </Button>
 </VStack>
@@ -108,7 +110,7 @@ export default function Component() {
 </Center>
   <NextHead>
   <title>
-  {`Reflex App`}
+  {`Words - A words game 2`}
 </title>
   <meta content={`A Reflex app.`} name={`description`}/>
   <meta content={`favicon.ico`} property={`og:image`}/>

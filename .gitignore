@@ -2,9 +2,10 @@
 
 *.py[cod]
 
-.web
-venv
-
 __pycache__/
+
+.web/
+
+venv/
 
 db_connection.py
