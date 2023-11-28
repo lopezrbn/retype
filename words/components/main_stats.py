@@ -10,6 +10,7 @@ def main_stats() -> rx.Component:
             rx.table(
                 headers=["Letters", "Found", "Total found", "%"],
                 rows=State.stats_to_show,
+                text_align="center",
             ),
         ),
         flex_grow="1",

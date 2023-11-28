@@ -20,7 +20,7 @@ class Size(Enum):
     SMALL = "0.5em"
     MEDIUM = "0.8em"
     DEFAULT = "1em"
-    MEDIUM_BIG = "1.2em"
+    MEDIUM_BIG = "1.5em"
     BIG = "2em"
     EXTRA_BIG = "2.5em"
 
@@ -47,7 +47,7 @@ BASE_STYLE = {
     rx.Heading: {
         "color": TEXT_COLOR,
         "text_align": "center",
-        "font_size": Size.BIG.value,
+        "font_size": Size.MEDIUM_BIG.value,
     },
     rx.Input: {
         "border_color": SEC_COLOR,
@@ -56,10 +56,10 @@ BASE_STYLE = {
         # "text_align": "center",
     },
     rx.Link: {
-        # "text_decoration": "none",
+        "text_decoration": "underline",
         # "_hover": {},
         "color": TEXT_COLOR,
-        "font_size": Size.MEDIUM_BIG.value,
+        # "font_size": Size.MEDIUM_BIG.value,
     },
     rx.RadioGroup: {
         "color": TEXT_COLOR,
@@ -68,10 +68,10 @@ BASE_STYLE = {
         # "accent_color": "red",
     },
     rx.Table: {
-        "color": TEXT_COLOR,
+        # "color": TEXT_COLOR,
         # "variant": "stripped",
         # "color_scheme": "teal",
-        # "border_color": "black",
+        # "border": "2px solid black",
         # "border_width": "medium",
         # "border_top_width": "medium",
         # "border_top_color": "yellow",

@@ -8,12 +8,15 @@ from words.styles.styles import Size
 def header_var() -> rx.Component:
     return rx.box(
         rx.hstack(
-            rx.heading(
-                f"Words ",
-                font_size=Size.EXTRA_BIG.value,
-                text_align="left",
+            rx.link(
+                rx.image(src="/main-logo-transparent.png"),
+                href="./home",
             ),
-            rx.text(State.date_today),
+            rx.heading(
+                State.date_today,
+                font_size= Size.MEDIUM_BIG.value,
+            ),
+            align_items="center",
         ),
         rx.divider(),
     )

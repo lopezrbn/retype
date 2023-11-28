@@ -18,13 +18,16 @@ def nav_bar() -> rx.Component:
                 "Trophies",
                 href="/trophies"
             ),
+            rx.spacer(),
             rx.text(
-                f"Logged in as {State.data['player_name']}"
+                "Logged in as ",
+                rx.span(
+                    rx.link(
+                        f"{State.data['player_name']}",
+                        href="/"
+                    ),
+                ),
             ),
-            # position="sticky",
-            # padding_x="16px",
-            # padding_y="8px",
-            # z_index="999",
         ),
         rx.divider(),
     )

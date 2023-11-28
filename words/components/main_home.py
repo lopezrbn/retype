@@ -1,12 +1,17 @@
 import reflex as rx
 
 from words.state import State
+from words.styles.styles import Size
 
 
 def main_letters_box() -> rx.Component:
     return rx.center(
         rx.box(
-            rx.heading("Today's letters are"),
+            rx.heading(
+                "Today's letters are",
+                font_size=Size.BIG.value,
+            ),
+            rx.spacer(),
             rx.button_group(
                 rx.button(
                     State.data["day_letters"][0],
@@ -109,4 +114,5 @@ def main_home() -> rx.Component:
         ),
         flex_grow="1",
         # border_width="medium",
+        align_items="center",
     )

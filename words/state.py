@@ -159,7 +159,7 @@ class State(rx.State):
                 self.data["stats"][i][0],
                 self.data["stats"][i][1],
                 self.data["stats"][i][2],
-                self.data["stats"][i][1] / self.data["stats"][i][2] if self.data["stats"][i][2] != 0 else 0
+                f"{self.data["stats"][i][1] / self.data["stats"][i][2] * 100 if self.data["stats"][i][2] != 0 else 0.0:.2f} %"
             ) for i in range(7)
         ]
 

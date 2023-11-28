@@ -14,7 +14,7 @@ def index():
                         rx.image(
                             src="/main-logo-transparent.png",
                         ),
-                        rx.heading(f"Welcome back, ", State.player_name_cookie, f"!"),
+                        rx.heading(f"Welcome back to rety.pe,\n", State.player_name_cookie, f"!"),
                         rx.spacer(),
                         rx.button(
                            "Log in",
@@ -30,7 +30,7 @@ def index():
                         rx.image(
                            src="/main-logo-transparent.png",
                         ),
-                        rx.heading("Welcome to Words!"),
+                        rx.heading("Welcome to rety.pe!"),
                         rx.spacer(),
                         rx.input(
                            placeholder="Enter your name",
