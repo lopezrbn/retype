@@ -41,7 +41,7 @@ class State(rx.State):
         (7,0,0),
         (8,0,0),
     ]
-    data["global_values_today"]: List[Tuple[int, int, float]] = db.read_global_values_from_db()
+    data["global_values_today"]: List[int | float] = db.read_global_values_from_db()
     data["ranking"] = db.read_rankings_from_db()
     data["word_status"]:str = ""
     data["trophies"]: Dict[int, Dict] = {
@@ -77,14 +77,23 @@ class State(rx.State):
 
     
     def reload_static_data(self):
-        self.data["day_letters"]:list = db.read_day_letters_from_db()
-        self.data["words_log"]: list = db.read_words_log_from_db(self.data["player_id"])
         self.data["points_total"]: int = db.read_points_from_db(self.data["player_id"])
+        self.data["words_log"]: list = db.read_words_log_from_db(self.data["player_id"])
         self.data["ranking"] = db.read_rankings_from_db()
-        self.data["global_values_today"]: List[Tuple[int, int, float]] = db.read_global_values_from_db()
-        self.data["stats"] = db.get_stats_from_db(self.data["player_id"])
-        # self.data["trophies"]
+        self.data["global_values_today"]: List[int | float] = db.read_global_values_from_db()
         
+
+    def reload_day_letters(self):
+        self.data["day_letters"]:list = db.read_day_letters_from_db()
+
+
+    def load_stats(self):
+        self.data["stats"] = db.get_stats_from_db(self.data["player_id"])
+
+
+    def load_trophies(self):
+        # self.data["trophies"] = ""
+        pass
 
 
     def login_handler(self):
@@ -171,7 +180,7 @@ class State(rx.State):
                 self.data["stats"][i][0],
                 self.data["stats"][i][1],
                 self.data["stats"][i][2],
-                f"{self.data['stats'][i][1] / self.data['stats'][i][2] * 100 if self.data['stats'][i][2] != 0 else 0.0:.2f} %"
+                f"{(self.data['stats'][i][1] / self.data['stats'][i][2] * 100 if self.data['stats'][i][2] != 0 else 0.0):.2f} %"
             ) for i in range(7)
         ]
 
@@ -199,3 +208,12 @@ class State(rx.State):
     @rx.var
     def date_today(self) -> str:
         return date.today().strftime("%d %B %Y")
+    
+
+    @rx.var
+    def global_values_today_to_show(self) -> Tuple[str]:
+        return (
+            f"{self.data['global_values_today'][0]}",
+            f"{self.data['global_values_today'][1]}",
+            f"{self.data['global_values_today'][2]:.2f}"
+        )

@@ -116,8 +116,8 @@ def generate_letters():
 
 def readfdb_checkword_assingpoints_writetdb(State):
     # Reading from db and initializing variables
-    State.data["words_log"] = db.read_words_log_from_db(State.data["player_id"])
-    State.data["points_total"] = db.read_points_from_db(State.data["player_id"])
+    # State.data["words_log"] = db.read_words_log_from_db(State.data["player_id"])
+    # State.data["points_total"] = db.read_points_from_db(State.data["player_id"])
     State.data["points"] = 0
 
     # Checking status of word (valid letters used and not a repeated word)
@@ -148,7 +148,7 @@ def readfdb_checkword_assingpoints_writetdb(State):
 
             # Update rankings, stats, trophies and global values
             State.data["ranking"] = db.read_rankings_from_db()
-            State.data["stats"] = db.get_stats_from_db(State.data["player_id"])
+            # State.data["stats"] = db.get_stats_from_db(State.data["player_id"])
             # State.data["trophies"] = ""
             State.data["global_values_today"] = db.read_global_values_from_db()
             

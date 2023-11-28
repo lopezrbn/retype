@@ -13,13 +13,13 @@ def connect_to_db(query: str, select: bool = True):
                 cursor.execute(query)
                 if select:
                     result = cursor.fetchall()
-                    print("Query correctly executed.\n")
+                    print("Query correctly executed.\n\n")
                     return result
                 else:
                     connection.commit()
                     cursor.execute("SELECT LAST_INSERT_id()")
                     last_id = cursor.fetchall()
-                    print("Query correctly executed.\n")
+                    print("Query correctly executed.\n\n")
                     print(last_id)
                     return last_id
     except Error as e:
@@ -52,7 +52,8 @@ def create_global_values_query(query_number):
         SELECT {select}
         FROM t1
     """
-    print(f"Query: {query}")
+    print("Query: read global_values iteratively given the query number (0:number of players, 1:number of words, 2:average points).")
+    print(f"{query}")
     return query
 
 
@@ -64,7 +65,8 @@ def create_insert_query(table: str, variables: list, values: list) -> str:
     for value in values:
         query += '"' + value + '"' + ", "
     query = query[:-2] + ")"
-    print(f"Query: {query}")
+    print("Query: standard INSERT query.")
+    print(f"{query}")
     return query
 
 
@@ -119,19 +121,23 @@ def create_rankings_query(ranking_type: str, period: str) -> str:
         SELECT name, {grouped_by_var_1}
         FROM t1
         {group_by_1}
-        ORDER BY {grouped_by_var_1} DESC"""
-    print(f"Query: {query}")
+        ORDER BY {grouped_by_var_1} DESC
+        """
+    print("Query: read ranking given a ranking_type and ranking_period.")
+    print(f"{query}")
     return query
 
 
 def create_select_query(variables: list, table: str, where_clause: str = None) -> str:
-    query = f"SELECT "
+    query = f"\n\tSELECT "
     for var in variables:
         query += var + ", "
     query = query[:-2] + f" FROM {db['database']}.{table}"
     if where_clause:
         query += f" WHERE {where_clause}"
-    print(f"Query: {query}")
+    query += "\n"
+    print("Query: standard SELECT query.")
+    print(f"{query}")
     return query
 
 
@@ -150,9 +156,11 @@ def get_stats_from_db(player_id: int) -> list:
             WHERE no_letters = {i} AND player_id = {player_id}
         """
 
-        print(f"Query: {query_user_words}")
+        print(f"Query: read number of {i}-letters words submitted by the player.")
+        print(f"{query_user_words}")
         user_words = connect_to_db(query=query_user_words, select=True)[0][0]
-        print(f"Query: {query_total_words}")
+        print(f"Query: read total number of {i}-letters words submitted.")
+        print(f"{query_total_words}")
         total_words = connect_to_db(query=query_total_words, select=True)[0][0]
         output.append((i, user_words, total_words))
 
