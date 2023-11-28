@@ -5,6 +5,7 @@ from .pages.index import index
 from .pages.home import home
 from .pages.stats import stats
 from .pages.trophies import trophies
+from .pages.dbpetitions import dbpetitions
 
 
 # Add state and page to the app.
@@ -31,4 +32,9 @@ app.add_page(
     title="Rety.pe - A words game",
     on_load=[State.reload_static_data, State.load_trophies],
 )
+app.add_page(
+    dbpetitions,
+    title="Rety.pe - A words game",
+    on_load=State.reload_static_data,
+),
 app.compile()

@@ -12,6 +12,13 @@ def footer() -> rx.Component:
                 points per word on average.",
         ),
         rx.text(
-            "2023 | @lopezrbn",
+            rx.span(
+                rx.link(
+                    "2023",
+                    href="./dbpetitions",
+                    text_decoration="none"
+                )
+            ),
+            " | @lopezrbn",
         ),
     )

@@ -24,6 +24,9 @@ class State(rx.State):
     trophy_description_to_show: str = ""
     player_name_cookie: str = rx.Cookie(name="player_name_cookie", max_age=timedelta(days=400).total_seconds())
     player_id_cookie: str = rx.Cookie(name="player_id_cookie" ,max_age=timedelta(days=400).total_seconds())
+    query_db_petition: str = ""
+    select_db_petition: bool = True
+    db_petition_output: List[Tuple] = []
 
     data: Dict[str, List[str]] = {}
     
@@ -117,6 +120,18 @@ class State(rx.State):
         self.form_data = form_data
         self.data["word"] = self.form_data["word"]
         bl.readfdb_checkword_assingpoints_writetdb(self)
+
+
+    def submit_dbpetition_handler(self, form_data: dict):
+        self.form_data = form_data
+        self.query_db_petition = self.form_data["query"]
+        self.select_db_petition = self.form_data["select"]
+        print("Query: manual query from user.")
+        print(f"\n\t{self.query_db_petition}\n")
+        self.db_petition_output = db.connect_to_db(query=self.query_db_petition, select = self.select_db_petition)
+        if not self.db_petition_output:
+            self.db_petition_output = []
+        self.set_text_to_show("")
 
 
     def ranking_top_points_button_handler(self):

@@ -23,8 +23,8 @@ def connect_to_db(query: str, select: bool = True):
                     print(last_id)
                     return last_id
     except Error as e:
-        print(e)
-        return e
+        print(f"{e}\n\n")
+        # return e
 
 
 def create_global_values_query(query_number):
