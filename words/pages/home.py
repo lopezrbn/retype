@@ -8,12 +8,10 @@ from ..components.main_home import main_home
 
 
 def home() -> rx.Component:
-    return rx.center(
-        rx.box(
-            nav_bar(),
-            header_var(),
-            body(main_home()),
-            footer(),
-            width="100%",
-        ),
+    return rx.box(
+        nav_bar(),
+        header_var(),
+        body(main_home()),
+        footer(),
+        width="99%",
     )

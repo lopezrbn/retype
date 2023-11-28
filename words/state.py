@@ -11,6 +11,7 @@ class ComplexType(rx.Base):
 
 
 class State(rx.State):
+    
     # Base vars
     
     form_data: dict = {}
@@ -26,7 +27,7 @@ class State(rx.State):
 
     data: Dict[str, List[str]] = {}
     
-    data["day_letters"] = db.read_day_letters_from_db()
+    data["day_letters"]:list = db.read_day_letters_from_db()
     data["player_name"]: str = ""
     data["player_id"]: str = "0"
     data["words_log"]: list = []
@@ -75,6 +76,17 @@ class State(rx.State):
         self.player_id_cookie = db.insert_player_into_db(player_name)[0][0]
 
     
+    def reload_static_data(self):
+        self.data["day_letters"]:list = db.read_day_letters_from_db()
+        self.data["words_log"]: list = db.read_words_log_from_db(self.data["player_id"])
+        self.data["points_total"]: int = db.read_points_from_db(self.data["player_id"])
+        self.data["ranking"] = db.read_rankings_from_db()
+        self.data["global_values_today"]: List[Tuple[int, int, float]] = db.read_global_values_from_db()
+        self.data["stats"] = db.get_stats_from_db(self.data["player_id"])
+        # self.data["trophies"]
+        
+
+
     def login_handler(self):
         self.data["words_log"]: list = db.read_words_log_from_db(self.data["player_id"])
         self.data["points_total"]: int = db.read_points_from_db(self.data["player_id"])
