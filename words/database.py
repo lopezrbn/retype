@@ -141,6 +141,29 @@ def create_select_query(variables: list, table: str, where_clause: str = None) -
     return query
 
 
+def create_trophies_description_query():
+    query = f"""
+        SELECT * FROM {db['database']}.trophies_description
+    """
+    print("Query: read trophies description.")
+    print(f"{query}")
+    return query
+
+
+def create_trophies_earned_query(player_id):
+    query = f"""
+        SELECT p.trophy_id, p.trophy_description, DATE_FORMAT(o.date_creation, "%Y-%m-%d %H:%i:%S") AS date_creation, o.word
+        FROM {db['database']}.trophies_description AS p
+        INNER JOIN {db['database']}.trophies_earned AS o
+	        on p.trophy_id = o.trophy_id
+        WHERE player_id = {player_id}
+        ORDER BY trophy_id, date_creation ASC;
+    """
+    print("Query: read trophies earned by player.")
+    print(f"{query}")
+    return query
+
+
 def get_stats_from_db(player_id: int) -> list:
     output = []
     for i in range(2, 9):
@@ -222,6 +245,18 @@ def read_rankings_from_db(ranking_type: str = "top_points", period: str = "day")
     for i in range(5):
         result_int.append((result[i][0], int(result[i][1])))
     return result_int
+
+
+def read_trophies_description_from_db():
+    query = create_trophies_description_query()
+    result = connect_to_db(query=query, select=True)
+    return result
+
+
+def read_trophies_earned_from_db(player_id):
+    query = create_trophies_earned_query(player_id)
+    result = connect_to_db(query=query, select=True)
+    return result
 
 
 def read_words_log_from_db(player_id):

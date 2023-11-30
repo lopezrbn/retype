@@ -46,31 +46,9 @@ class State(rx.State):
     ]
     data["global_values_today"]: List[int | float] = db.read_global_values_from_db()
     data["ranking"] = db.read_rankings_from_db()
-    data["word_status"]:str = ""
-    data["trophies"]: Dict[int, Dict] = {
-        1: {
-            "id": 1,
-            "description": "Discover a word for the first time",
-            "achieved": False,
-            "word": "",
-            "date": ""
-        },
-        2: {
-            "id": 2,
-            "description": "Discover the longest word so far",
-            "achieved": False,
-            "word": "",
-            "date": ""
-        },
-        3: {
-            "id": 3,
-            "description": "Discover a word using all available letters",
-            "achieved": False,
-            "word": "",
-            "date": ""
-        }
-    }
-
+    data["word_status"]: str = ""
+    data["trophies_description"]: Dict[int, str] = dict(db.read_trophies_description_from_db())
+    data["trophies_earned"]: List[Tuple[int, str, date, str]] = db.read_trophies_earned_from_db(data["player_id"])
 
 
     # Event handlers
@@ -95,8 +73,7 @@ class State(rx.State):
 
 
     def load_trophies(self):
-        # self.data["trophies"] = ""
-        pass
+        self.data["trophies_earned"]: List[Tuple[int, str, date, str]] = db.read_trophies_earned_from_db(self.data["player_id"])
 
 
     def login_handler(self):
@@ -108,7 +85,7 @@ class State(rx.State):
 
     def trophy_alert_dialog_show(self, trophy_number:int=0):
         self.trophy_number_to_show = trophy_number
-        self.trophy_description_to_show = self.data["trophies"][self.trophy_number_to_show]["description"]
+        self.trophy_description_to_show = self.data["trophies_description"][trophy_number]
         self.alert_dialog_show = True
 
     
@@ -202,16 +179,8 @@ class State(rx.State):
 
     @rx.var
     def trophies_to_show(self) -> List[Tuple]:
-        return [
-            (
-                self.data["trophies"][i]["id"],
-                self.data["trophies"][i]["description"],
-                "Yes" if self.data["trophies"][i]["achieved"] else "No",
-                self.data["trophies"][i]["word"].capitalize() if self.data["trophies"][i]["achieved"] else "-",
-                self.data["trophies"][i]["date"].strftime("%d/%m/%Y - %H:%M") if self.data["trophies"][i]["achieved"] else "-",
-            ) for i in range(1,4)
-        ]
-    
+        return self.data["trophies_earned"]
+
 
     @rx.var
     def words_log_to_show(self) -> List[Tuple]:

@@ -1,13 +1,8 @@
 *.db
-
 *.py[cod]
-
-__pycache__/
-
 .idea/
-
 .web/
-
-venv/
-
+__pycache__/
 db_connection.py
+venv/
+test.py

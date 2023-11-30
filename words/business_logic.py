@@ -6,26 +6,35 @@ import words.database as db
 
 
 def check_trophies(State) -> dict:
-    if check_trophy1(State):
-        State.data["trophies"][1]["achieved"] = True
-        State.data["trophies"][1]["word"] = State.data["word"]
-        State.data["trophies"][1]["date"] = datetime.now()
-        State.trophy_alert_dialog_show(trophy_number=1)
-    if check_trophy2(State):
-        State.data["trophies"][2]["achieved"] = True
-        State.data["trophies"][2]["word"] = State.data["word"]
-        State.data["trophies"][2]["date"] = datetime.now()
-        State.trophy_alert_dialog_show(trophy_number=2)
-    if check_trophy3(State):
-        State.data["trophies"][3]["achieved"] = True
-        State.data["trophies"][3]["word"] = State.data["word"]
-        State.data["trophies"][3]["date"] = datetime.now()
-        State.trophy_alert_dialog_show(trophy_number=3)
+    functions = [check_trophy1, check_trophy2, check_trophy3, check_trophy4,
+                 check_trophy5, check_trophy6, check_trophy7]
+    variables = ["trophy_id", "player_id", "date_creation", "word", "still_valid"]
+    values = [f"_", f"{State.data["player_id"]}", f"{datetime.now()}", f"{State.data["word"]}", f"1"]
+    for i, function in enumerate(functions):
+        if function(State):
+            values[0] = str(i+1)
+            query = db.create_insert_query(table="trophies_earned", variables=variables, values=values)
+            db.connect_to_db(query=query, select=False)
+            State.trophy_alert_dialog_show(trophy_number=i+1)
     return None
 
 
 def check_trophy1(State) -> bool:
-    """Discover a word for the first time"""
+    # Discover a word for the first time today
+    query = f"""
+        SELECT 1
+        FROM words_game.words
+        WHERE word = '{State.data["word"]}' AND DATE(date_creation) = '{datetime.today()}';
+    """
+    result = db.connect_to_db(query=query, select=True)
+    if result:
+        return False
+    else:
+        return True
+
+
+def check_trophy2(State) -> bool:
+    # Discover a word for the first time ever
     query = f"""
         SELECT 1
         FROM words_game.words
@@ -37,12 +46,28 @@ def check_trophy1(State) -> bool:
     else:
         return True
 
-
-def check_trophy2(State) -> bool:
-    "Discover the longest word so far"
+def check_trophy3(State) -> bool:
+    # Discover the longest word so far today
     query = f"""
         SELECT MAX(no_letters)
         FROM words_game.words
+        WHERE DATE(date_creation) = '{datetime.today()}'
+    """
+    result = db.connect_to_db(query=query, select=True)[0][0]
+    if result is None:
+        result = 0
+    if len(State.data["word"]) > result:
+        return True
+    else:
+        return False
+    
+
+def check_trophy4(State) -> bool:
+    # Discover the longest word so far today
+    query = f"""
+        SELECT MAX(no_letters)
+        FROM words_game.words
+        WHERE DATE(date_creation) = '{datetime.today()}'
     """
     result = db.connect_to_db(query=query, select=True)[0][0]
     if result is None:
@@ -53,12 +78,25 @@ def check_trophy2(State) -> bool:
         return False
 
 
-def check_trophy3(State) -> bool:
-    "Discover a word using all available letters"
+def check_trophy5(State) -> bool:
+    # Discover a word using all available letters
     for letter in State.data["day_letters"]:
         if letter not in State.data["word"]:
             return False
     return True
+
+
+def check_trophy6(State) -> bool:
+    # Discover a word using all the vowels
+    for vowel in ["a", "e", "i", "o", "u"]:
+        if vowel not in State.data["word"]:
+            return False
+    return True
+
+
+def check_trophy7(State) -> bool:
+    # Discover the word retype
+    return True if State.data["word"] == "retype" else False
 
 
 def check_word_and_get_points(input_word):
