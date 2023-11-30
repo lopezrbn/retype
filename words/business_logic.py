@@ -9,7 +9,7 @@ def check_trophies(State) -> dict:
     functions = [check_trophy1, check_trophy2, check_trophy3, check_trophy4,
                  check_trophy5, check_trophy6, check_trophy7]
     variables = ["trophy_id", "player_id", "date_creation", "word", "still_valid"]
-    values = [f"_", f"{State.data["player_id"]}", f"{datetime.now()}", f"{State.data["word"]}", f"1"]
+    values = [f"_", f"{State.data['player_id']}", f"{datetime.now()}", f"{State.data['word']}", f"1"]
     for i, function in enumerate(functions):
         if function(State):
             values[0] = str(i+1)
