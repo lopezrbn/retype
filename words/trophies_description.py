@@ -1,7 +1,7 @@
 trophies_description = {
     1: "Discover a word for the first time today",
     2: "Discover a word for the first time ever",
-    3: "Discover the longest word so far today",
+    3: "Discover the longest word of a day",
     4: "Discover the longest word so far ever",
     5: "Discover a word using all available letters",
     6: "Discover a word using all the vowels",

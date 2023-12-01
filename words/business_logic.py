@@ -20,7 +20,7 @@ def check_trophies(State) -> dict:
 
 
 def check_trophy1(State) -> bool:
-    # Discover a word for the first time today
+    # Trophy description: Discover a word for the first time today
     query = f"""
         SELECT 1
         FROM words_game.words
@@ -34,7 +34,7 @@ def check_trophy1(State) -> bool:
 
 
 def check_trophy2(State) -> bool:
-    # Discover a word for the first time ever
+    # Trophy description: Discover a word for the first time ever
     query = f"""
         SELECT 1
         FROM words_game.words
@@ -47,39 +47,60 @@ def check_trophy2(State) -> bool:
         return True
 
 def check_trophy3(State) -> bool:
-    # Discover the longest word so far today
+    # Trophy description: Discover the longest word of a day
     query = f"""
         SELECT MAX(no_letters)
         FROM words_game.words
         WHERE DATE(date_creation) = '{datetime.today()}'
     """
+    print("Query: ")
+    print(f"{query}")
     result = db.connect_to_db(query=query, select=True)[0][0]
     if result is None:
         result = 0
     if len(State.data["word"]) > result:
+        # if the new word is longer than the previous words of the day, those words' trophy 3 is not valid anymore, so set still_valid column to 0.
+        query = f"""
+            UPDATE trophies_earned
+            SET still_valid = 0
+            WHERE trophy_id = 3 AND player_id = {State.data['player_id']};
+        """
+        print("Query: update still_valid column to 0 for the rest of the words if a new longer word has been found today")
+        print(f"\t{query}\n")
+        db.connect_to_db(query=query, select=False)
+        # Finally, return True as the trophy 3 has been earned
         return True
     else:
         return False
     
 
 def check_trophy4(State) -> bool:
-    # Discover the longest word so far today
+    # Trophy description: Discover the longest word so far ever
     query = f"""
         SELECT MAX(no_letters)
         FROM words_game.words
-        WHERE DATE(date_creation) = '{datetime.today()}'
     """
     result = db.connect_to_db(query=query, select=True)[0][0]
     if result is None:
         result = 0
     if len(State.data["word"]) > result:
+        # if the new word is longer than any other, those words' trophy 4 is not valid anymore, so set still_valid column to 0.
+        query = f"""
+            UPDATE trophies_earned
+            SET still_valid = 0
+            WHERE trophy_id = 4 AND player_id = {State.data['player_id']};
+        """
+        print("Query: update still_valid column to 0 for the rest of the words if a new longer word has been found")
+        print(f"\t{query}\n")
+        db.connect_to_db(query=query, select=False)
+        # Finally, return True as the trophy 4 has been earned
         return True
     else:
         return False
 
 
 def check_trophy5(State) -> bool:
-    # Discover a word using all available letters
+    # Trophy description: Discover a word using all available letters
     for letter in State.data["day_letters"]:
         if letter not in State.data["word"]:
             return False
@@ -87,7 +108,7 @@ def check_trophy5(State) -> bool:
 
 
 def check_trophy6(State) -> bool:
-    # Discover a word using all the vowels
+    # Trophy description: Discover a word using all the vowels
     for vowel in ["a", "e", "i", "o", "u"]:
         if vowel not in State.data["word"]:
             return False
@@ -95,7 +116,7 @@ def check_trophy6(State) -> bool:
 
 
 def check_trophy7(State) -> bool:
-    # Discover the word retype
+    # Trophy description: Discover the word retype
     return True if State.data["word"] == "retype" else False
 
 

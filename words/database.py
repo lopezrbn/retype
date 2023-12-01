@@ -156,7 +156,7 @@ def create_trophies_earned_query(player_id):
         FROM {db['database']}.trophies_description AS p
         INNER JOIN {db['database']}.trophies_earned AS o
 	        on p.trophy_id = o.trophy_id
-        WHERE player_id = {player_id}
+        WHERE player_id = {player_id} AND still_valid = '1'
         ORDER BY trophy_id, date_creation ASC;
     """
     print("Query: read trophies earned by player.")
@@ -199,18 +199,32 @@ def insert_player_into_db(player_name):
 
 
 def read_day_letters_from_db():
+    # Check firstly if there are day_letters in the db with date = today
     today = str(date.today())
     query = create_select_query(variables=["*"], table="day_letters",
         where_clause=f"date_creation='{today}'")
     result = connect_to_db(query=query, select=True)
     if result:
+        # If there are, just unpack and return them
         output = [column for column in result[0][2:]]
     else:
+        # If there aren't this means a new day has started, so generate new letters and insert them into the db
         output = generate_letters()
         variables = ["date_creation", "l0", "l1", "l2", "l3", "l4", "l5", "l6"]
         values = [today] + output
         query = create_insert_query(table="day_letters", variables=variables, values=values)
         connect_to_db(query=query, select=False)
+
+        # Also, I use the detection of a new day to reset trophy 1
+        query = f"""
+            UPDATE trophies_earned
+            SET still_valid = 0
+            WHERE trophy_id = 1
+        """
+        print("Query: reset still_valid column for trophies 1 and 3 as it is a new day")
+        print(f"\t{query}\n")
+        connect_to_db(query=query, select=False)
+
     return output
 
 
