@@ -1,6 +1,6 @@
 import random
 import requests
-from datetime import datetime
+from datetime import datetime, date
 
 import words.database as db
 
@@ -24,7 +24,7 @@ def check_trophy1(State) -> bool:
     query = f"""
         SELECT 1
         FROM words_game.words
-        WHERE word = '{State.data["word"]}' AND DATE(date_creation) = '{datetime.today()}';
+        WHERE word = '{State.data["word"]}' AND DATE(date_creation) = '{date.today()}';
     """
     result = db.connect_to_db(query=query, select=True)
     if result:
@@ -51,7 +51,7 @@ def check_trophy3(State) -> bool:
     query = f"""
         SELECT MAX(no_letters)
         FROM words_game.words
-        WHERE DATE(date_creation) = '{datetime.today()}'
+        WHERE DATE(date_creation) = '{date.today()}'
     """
     print("Query: ")
     print(f"{query}")
