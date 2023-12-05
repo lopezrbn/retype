@@ -3,6 +3,7 @@ from typing import List, Dict, Tuple
 from datetime import timedelta, date
 
 import words.database as db
+import words.db_connection as db_connection
 import words.business_logic as bl
 
 
@@ -24,6 +25,10 @@ class State(rx.State):
     alert_dialog_show: bool = False
     button_letter: str = ""
     db_petition_output: List[Tuple] = []
+    db_petition_password: str = db_connection.db["password"]
+    db_petition_password_entered: str = ""
+    db_petition_query: str = ""
+    db_petition_warning_message: str = ""
     form_data: dict = {}
     player_name_cookie: str = rx.Cookie(name="player_name_cookie", max_age=timedelta(days=400).total_seconds())
     player_id_cookie: str = rx.Cookie(name="player_id_cookie" ,max_age=timedelta(days=400).total_seconds())
@@ -110,16 +115,19 @@ class State(rx.State):
         self.data["global_values_today"]: List[int | float] = db.read_global_values_from_db()
         
 
-    def submit_dbpetition_handler(self, form_data: dict):
-        self.form_data = form_data
-        self.query_db_petition = self.form_data["query"]
-        self.select_db_petition = self.form_data["select"]
-        print("Query: manual query from user.")
-        print(f"\n\t{self.query_db_petition}\n")
-        self.db_petition_output = db.connect_to_db(query=self.query_db_petition, select = self.select_db_petition)
-        if not self.db_petition_output:
-            self.db_petition_output = []
-        self.set_text_to_show("")
+    def submit_dbpetition_handler(self, form):
+        self.db_petition_warning_message = ""
+        if self.db_petition_password_entered == self.db_petition_password:
+            print("Query: manual query from user.")
+            print(f"\n\t{self.db_petition_query}\n")
+            self.db_petition_output = db.connect_to_db(query=self.db_petition_query)
+            if not self.db_petition_output:
+                self.db_petition_output = []
+        else:
+            self.db_petition_warning_message = "Invalid password! Please enter a valid one."
+        self.db_petition_query = ""
+        self.db_petition_password_entered = ""
+
 
 
     def submit_word_handler(self, form_data: dict):
@@ -165,7 +173,6 @@ class State(rx.State):
                 response_message = f"Good! +{self.data['points']} points!"
                 self.data["definition"] = insert_new_lines_in_str(self.data["definition"])
                 response_definition = [self.data["word"].capitalize() + ": ", self.data["definition"]]
-                # response_definition = self.insert_new_lines_in_str(response_definition)
             else:
                 response_message = "Not found in the dictionary."
         elif self.data["word_status"] == "invalid":

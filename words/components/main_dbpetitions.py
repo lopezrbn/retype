@@ -8,15 +8,29 @@ def main_form() -> rx.Component:
         rx.vstack(
             rx.input(
                 placeholder="Enter a valid query",
-                value = State.compound_text,
+                value = State.db_petition_query,
                 id="query",
-                on_change=State.set_text_to_show
+                on_change=State.set_db_petition_query,
             ),
-            rx.checkbox(
-                "Select",
-                id="select",
-                is_checked=State.select_db_petition,
-                on_change=State.set_select_db_petition,
+            rx.select(
+                [
+                    "SELECT * FROM words",
+                    "SELECT * FROM players",
+                    "SELECT * FROM words ORDER BY date_creation DESC",
+                    f"""
+                        SELECT p.id, p.name, o.date_creation, o.word, o.no_letters, o.points
+                        FROM players AS p
+                        INNER JOIN words AS o
+                            ON p.id = o.player_id
+                        ORDER BY o.date_creation DESC
+                    """,
+                ],
+                placeholder="Select a query",
+                on_change=State.set_db_petition_query,
+            ),
+            rx.password(
+                placeholder="Enter the db password",
+                on_change=State.set_db_petition_password_entered,
             ),
             rx.hstack(
                 rx.button(
@@ -26,7 +40,7 @@ def main_form() -> rx.Component:
                 rx.button(
                     "Reset",
                     type_="reset",
-                    on_click=State.set_text_to_show(""),
+                    on_click=State.set_db_petition_query(""),
                 ),
             )
         ),
@@ -36,11 +50,14 @@ def main_form() -> rx.Component:
 
 def main_response() -> rx.Component:
     return rx.box(
-        rx.table(
-                # headers=["Letters", "Found", "Total found", "%"],
-                rows=State.db_petition_output,
-                text_align="center",
+        rx.vstack(
+            rx.text(State.db_petition_warning_message),
+            rx.table(
+                    # headers=["Letters", "Found", "Total found", "%"],
+                    rows=State.db_petition_output,
+                    text_align="center",
             ),
+        ),
     )
 
 

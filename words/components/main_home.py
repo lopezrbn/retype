@@ -73,13 +73,15 @@ def main_form() -> rx.Component:
 
 def main_response() -> rx.Component:
     return rx.box(
-        rx.text(State.response[0]),
-        rx.text(
-            rx.span(
-                State.response[1][0],
-                as_="i"
+        rx.vstack(
+            rx.text(State.response[0]),
+            rx.text(
+                rx.span(
+                    State.response[1][0],
+                    as_="i"
+                ),
+                State.response[1][1],
             ),
-            State.response[1][1],
         ),
     )
 
