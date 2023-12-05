@@ -74,9 +74,9 @@ def create_rankings_query(ranking_type: str, period: str) -> str:
 
     if ranking_type == "more_words":
         grouped_by_var_0 = "COUNT(o.id)"
-        group_by_0 = "GROUP BY p.name, date"
+        group_by_0 = "GROUP BY p.id, date"
         grouped_by_var_1 = "SUM(grouped_by_var)"
-        group_by_1 = "GROUP BY name"
+        group_by_1 = "GROUP BY id"
     elif ranking_type == "longest_word":
         grouped_by_var_0 = "o.no_letters"
         group_by_0 = ""
@@ -84,9 +84,9 @@ def create_rankings_query(ranking_type: str, period: str) -> str:
         group_by_1 = ""
     elif ranking_type == "top_points":
         grouped_by_var_0 = "SUM(o.points)"
-        group_by_0 = "GROUP BY p.name, date"
+        group_by_0 = "GROUP BY p.id, date"
         grouped_by_var_1 = "SUM(grouped_by_var)"
-        group_by_1 = "GROUP BY name"
+        group_by_1 = "GROUP BY id"
     else:
         grouped_by_var_0 = ""
         group_by_0 = ""
@@ -103,14 +103,15 @@ def create_rankings_query(ranking_type: str, period: str) -> str:
     elif period == "month":
         end_daterange = date.today()
         month_day = end_daterange.day
-        start_daterange = date.today() - timedelta(days=month_day)
+        start_daterange = date.today() - timedelta(days=month_day-1)
     else:
         start_daterange = ""
         end_daterange = ""
 
     query = f"""
+        # {ranking_type} - {period}
         WITH t1 as (
-            SELECT p.name, DATE(o.date_creation) AS date, {grouped_by_var_0} AS grouped_by_var
+            SELECT p.id, p.name, DATE(o.date_creation) AS date, {grouped_by_var_0} AS grouped_by_var
             FROM words_game.players AS p
             INNER JOIN words_game.words AS o
                 ON p.id = o.player_id
