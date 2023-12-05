@@ -117,12 +117,12 @@ def create_rankings_query(ranking_type: str, period: str) -> str:
                 ON p.id = o.player_id
             {group_by_0}
             HAVING date BETWEEN "{start_daterange}" AND "{end_daterange}"
-            ORDER BY grouped_by_var DESC
-            LIMIT 5)
+            ORDER BY grouped_by_var DESC)
         SELECT name, {grouped_by_var_1}
         FROM t1
         {group_by_1}
         ORDER BY {grouped_by_var_1} DESC
+        LIMIT 5
         """
     print("Query: read ranking given a ranking_type and ranking_period.")
     print(f"{query}")
