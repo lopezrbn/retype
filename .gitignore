@@ -1,6 +1,7 @@
 *.db
 *.py[cod]
 .idea/
+.vscode/
 .web/
 __pycache__/
 db_connection.py

@@ -120,19 +120,22 @@ def check_trophy7(State) -> bool:
     return True if State.data["word"] == "retype" else False
 
 
-def check_word_and_get_points(input_word):
+def check_word_and_get_definition_and_points(input_word):
 
     url = "https://api.dictionaryapi.dev/api/v2/entries/en/" + input_word.lower()
 
     try:
         r = requests.get(url)
         r.raise_for_status()
+        resp = r.json()
+        definition = resp[0]["meanings"][0]["definitions"][0]["definition"]
         points = 2 ** len(input_word)
     except requests.exceptions.RequestException as e:
+        definition = ""
         points = 0
         print(e)
 
-    return points
+    return (definition, points)
 
 
 def is_repeated_word(input_word, words_log):
@@ -191,7 +194,7 @@ def readfdb_checkword_assingpoints_writetdb(State):
     
     # Assign points and calculate len of word if it is a valid word
     if State.data["word_status"] == "valid":
-        State.data["points"] = check_word_and_get_points(input_word=State.data["word"])
+        State.data["definition"], State.data["points"] = check_word_and_get_definition_and_points(input_word=State.data["word"])
         if State.data["points"] > 0:
             State.data["words_log"].append(State.data["word"].lower())
             State.data["points_total"] += State.data["points"]

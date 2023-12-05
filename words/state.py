@@ -6,6 +6,13 @@ import words.database as db
 import words.business_logic as bl
 
 
+def insert_new_lines_in_str(text, every=75):
+        lines = []
+        for i in range(0, len(text), every):
+            lines.append(text[i:i+every])
+        return "\n\n".join(lines)
+
+
 class ComplexType(rx.Base):
     attribute: List[Tuple]
 
@@ -14,27 +21,28 @@ class State(rx.State):
     
     # Base vars
     
-    form_data: dict = {}
-    text_to_show: str = ""
-    text_player_name_input: str = ""
-    button_letter: str = ""
-    radio_value: str = "Day"
     alert_dialog_show: bool = False
-    trophy_number_to_show: int = 0
-    trophy_description_to_show: str = ""
+    button_letter: str = ""
+    db_petition_output: List[Tuple] = []
+    form_data: dict = {}
     player_name_cookie: str = rx.Cookie(name="player_name_cookie", max_age=timedelta(days=400).total_seconds())
     player_id_cookie: str = rx.Cookie(name="player_id_cookie" ,max_age=timedelta(days=400).total_seconds())
     query_db_petition: str = ""
+    radio_value: str = "Day"
     select_db_petition: bool = True
-    db_petition_output: List[Tuple] = []
+    text_to_show: str = ""
+    text_player_name_input: str = ""
+    trophy_description_to_show: str = ""
+    trophy_number_to_show: int = 0
 
     data: Dict[str, List[str]] = {}
-    
     data["day_letters"]:list = db.read_day_letters_from_db()
+    data["definition"]: str = ""
+    data["global_values_today"]: List[int | float] = db.read_global_values_from_db()
     data["player_name"]: str = ""
     data["player_id"]: str = "0"
-    data["words_log"]: list = []
     data["points_total"]: int = 0
+    data["ranking"] = db.read_rankings_from_db()
     data["stats"]: List[Tuple[int, int, int]] = [
         (2,0,0),
         (3,0,0),
@@ -44,30 +52,14 @@ class State(rx.State):
         (7,0,0),
         (8,0,0),
     ]
-    data["global_values_today"]: List[int | float] = db.read_global_values_from_db()
-    data["ranking"] = db.read_rankings_from_db()
-    data["word_status"]: str = ""
     data["trophies_description"]: Dict[int, str] = dict(db.read_trophies_description_from_db())
     data["trophies_earned"]: List[Tuple[int, str, date, str]] = db.read_trophies_earned_from_db(data["player_id"])
+    data["word"]: str = ""
+    data["words_log"]: list = []
+    data["word_status"]: str = ""
 
 
     # Event handlers
-    def write_cookies(self, player_name):
-        self.player_name_cookie = player_name
-        self.player_id_cookie = db.insert_player_into_db(player_name)[0][0]
-
-    
-    def reload_static_data(self):
-        self.data["points_total"]: int = db.read_points_from_db(self.data["player_id"])
-        self.data["words_log"]: list = db.read_words_log_from_db(self.data["player_id"])
-        self.data["ranking"] = db.read_rankings_from_db()
-        self.data["global_values_today"]: List[int | float] = db.read_global_values_from_db()
-        
-
-    def reload_day_letters(self):
-        self.data["day_letters"]:list = db.read_day_letters_from_db()
-
-
     def load_stats(self):
         self.data["stats"] = db.get_stats_from_db(self.data["player_id"])
 
@@ -83,21 +75,40 @@ class State(rx.State):
         return rx.redirect("/home")
 
 
-    def trophy_alert_dialog_show(self, trophy_number:int=0):
-        self.trophy_number_to_show = trophy_number
-        self.trophy_description_to_show = self.data["trophies_description"][trophy_number]
-        self.alert_dialog_show = True
+    def ranking_longest_word_button_handler(self):
+       self.data["ranking_selected"] = "longest_word"
+       self.data["ranking_period"] = self.radio_value.lower()
+       self.data["ranking"] = db.read_rankings_from_db(
+           ranking_type=self.data["ranking_selected"],
+           period=self.data["ranking_period"])
+
+
+    def ranking_more_words_button_handler(self):
+       self.data["ranking_selected"] = "more_words"
+       self.data["ranking_period"] = self.radio_value.lower()
+       self.data["ranking"] = db.read_rankings_from_db(
+           ranking_type=self.data["ranking_selected"],
+           period=self.data["ranking_period"])
 
     
-    def trophy_alert_dialog_hide(self):
-        self.alert_dialog_show = False
+    def ranking_top_points_button_handler(self):
+       self.data["ranking_selected"] = "top_points"
+       self.data["ranking_period"] = self.radio_value.lower()
+       self.data["ranking"] = db.read_rankings_from_db(
+           ranking_type=self.data["ranking_selected"],
+           period=self.data["ranking_period"])
+    
+
+    def reload_day_letters(self):
+        self.data["day_letters"]:list = db.read_day_letters_from_db()
 
 
-    def submit_word_handler(self, form_data: dict):
-        self.form_data = form_data
-        self.data["word"] = self.form_data["word"]
-        bl.readfdb_checkword_assingpoints_writetdb(self)
-
+    def reload_static_data(self):
+        self.data["points_total"]: int = db.read_points_from_db(self.data["player_id"])
+        self.data["words_log"]: list = db.read_words_log_from_db(self.data["player_id"])
+        self.data["ranking"] = db.read_rankings_from_db()
+        self.data["global_values_today"]: List[int | float] = db.read_global_values_from_db()
+        
 
     def submit_dbpetition_handler(self, form_data: dict):
         self.form_data = form_data
@@ -111,28 +122,25 @@ class State(rx.State):
         self.set_text_to_show("")
 
 
-    def ranking_top_points_button_handler(self):
-       self.data["ranking_selected"] = "top_points"
-       self.data["ranking_period"] = self.radio_value.lower()
-       self.data["ranking"] = db.read_rankings_from_db(
-           ranking_type=self.data["ranking_selected"],
-           period=self.data["ranking_period"])
-    
+    def submit_word_handler(self, form_data: dict):
+        self.form_data = form_data
+        self.data["word"] = self.form_data["word"]
+        bl.readfdb_checkword_assingpoints_writetdb(self)
 
-    def ranking_more_words_button_handler(self):
-       self.data["ranking_selected"] = "more_words"
-       self.data["ranking_period"] = self.radio_value.lower()
-       self.data["ranking"] = db.read_rankings_from_db(
-           ranking_type=self.data["ranking_selected"],
-           period=self.data["ranking_period"])
+
+    def trophy_alert_dialog_hide(self):
+        self.alert_dialog_show = False
+
+
+    def trophy_alert_dialog_show(self, trophy_number:int=0):
+        self.trophy_number_to_show = trophy_number
+        self.trophy_description_to_show = self.data["trophies_description"][trophy_number]
+        self.alert_dialog_show = True
 
     
-    def ranking_longest_word_button_handler(self):
-       self.data["ranking_selected"] = "longest_word"
-       self.data["ranking_period"] = self.radio_value.lower()
-       self.data["ranking"] = db.read_rankings_from_db(
-           ranking_type=self.data["ranking_selected"],
-           period=self.data["ranking_period"])
+    def write_cookies(self, player_name):
+        self.player_name_cookie = player_name
+        self.player_id_cookie = db.insert_player_into_db(player_name)[0][0]
 
 
     # Computed vars    
@@ -147,13 +155,17 @@ class State(rx.State):
         self.button_letter = ""
         return self.text_to_show
     
-    
+
     @rx.var
-    def response(self) -> str:
+    def response(self) -> List[str]:
         response_message = ""
+        response_definition = ""
         if self.data["word_status"] == "valid":
             if self.data["points"] > 0:
                 response_message = f"Good! +{self.data['points']} points!"
+                self.data["definition"] = insert_new_lines_in_str(self.data["definition"])
+                response_definition = [self.data["word"].capitalize() + ": ", self.data["definition"]]
+                # response_definition = self.insert_new_lines_in_str(response_definition)
             else:
                 response_message = "Not found in the dictionary."
         elif self.data["word_status"] == "invalid":
@@ -162,7 +174,8 @@ class State(rx.State):
             response_message = "Word already submitted!"
         else:
             response_message = ""
-        return response_message
+            response_definition = ""
+        return [response_message, response_definition]
 
 
     @rx.var
