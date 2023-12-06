@@ -132,6 +132,6 @@ def main_home() -> rx.Component:
         # border_width="medium",
         align_items="center",
         # width=["320px", "700px", "1024px"],
-        width=["320px", "800px", "600px"]
+        width=["350px", "600px", "400px", "250px"]
         # min_w="1024px",
     )
