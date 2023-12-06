@@ -131,5 +131,6 @@ def main_home() -> rx.Component:
         flex_grow="1",
         # border_width="medium",
         align_items="center",
-        min_w="1024px",
+        width="1024px",
+        # min_w="1024px",
     )
