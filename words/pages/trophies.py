@@ -12,7 +12,7 @@ def trophies() -> rx.Component:
         rx.box(
             nav_bar(),
             header_var(),
-            body(main_trophies()),
+            main_trophies(),
             footer(),
             width="100%",
         ),

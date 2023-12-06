@@ -21,8 +21,7 @@ class ComplexType(rx.Base):
 class State(rx.State):
     
     # Base vars
-    
-    alert_dialog_show: bool = False
+    alert_dialog_show: List[bool] = [False] * (7+1)
     button_letter: str = ""
     db_petition_output: List[Tuple] = []
     db_petition_password: str = db_connection.db["password"]
@@ -37,6 +36,7 @@ class State(rx.State):
     select_db_petition: bool = True
     text_to_show: str = ""
     text_player_name_input: str = ""
+    trophies_description: Dict[int, str] = dict(db.read_trophies_description_from_db())
     trophy_description_to_show: str = ""
     trophy_number_to_show: int = 0
 
@@ -57,12 +57,10 @@ class State(rx.State):
         (7,0,0),
         (8,0,0),
     ]
-    data["trophies_description"]: Dict[int, str] = dict(db.read_trophies_description_from_db())
     data["trophies_earned"]: List[Tuple[int, str, date, str]] = db.read_trophies_earned_from_db(data["player_id"])
     data["word"]: str = ""
     data["words_log"]: list = []
     data["word_status"]: str = ""
-
 
     # Event handlers
     def load_stats(self):
@@ -136,14 +134,12 @@ class State(rx.State):
         bl.readfdb_checkword_assingpoints_writetdb(self)
 
 
-    def trophy_alert_dialog_hide(self):
-        self.alert_dialog_show = False
+    def trophy_alert_dialog_hide(self, trophy_number):
+        self.alert_dialog_show[trophy_number] = False
 
 
     def trophy_alert_dialog_show(self, trophy_number:int=0):
-        self.trophy_number_to_show = trophy_number
-        self.trophy_description_to_show = self.data["trophies_description"][trophy_number]
-        self.alert_dialog_show = True
+        self.alert_dialog_show[trophy_number] = True
 
     
     def write_cookies(self, player_name):
@@ -171,7 +167,7 @@ class State(rx.State):
         if self.data["word_status"] == "valid":
             if self.data["points"] > 0:
                 response_message = f"Good! +{self.data['points']} points!"
-                self.data["definition"] = insert_new_lines_in_str(self.data["definition"])
+                # self.data["definition"] = insert_new_lines_in_str(self.data["definition"])
                 response_definition = [self.data["word"].capitalize() + ": ", self.data["definition"]]
             else:
                 response_message = "Not found in the dictionary."

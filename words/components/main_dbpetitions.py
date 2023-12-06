@@ -63,15 +63,12 @@ def main_response() -> rx.Component:
 
 def main_dbpetitions() -> rx.Component:
     return rx.box(
-
-        rx.vstack(
-
-            main_form(),
-
-            rx.spacer(),
-
-            main_response(),
-            
+        rx.center(
+            rx.vstack(
+                main_form(),
+                rx.spacer(),
+                main_response(),
+            ),
         ),
         flex_grow="1",
         # border_width="medium",

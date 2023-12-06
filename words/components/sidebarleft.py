@@ -30,6 +30,6 @@ def sidebarleft() -> rx.Component:
         ),
 
         border_width="medium",
-        width="400px",
+        width="350px",
         # flex_grow="1",
     )

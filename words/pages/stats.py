@@ -12,7 +12,7 @@ def stats() -> rx.Component:
         rx.box(
             nav_bar(),
             header_var(),
-            body(main_stats()),
+            main_stats(),
             footer(),
             width="100%",
         ),

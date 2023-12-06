@@ -4,11 +4,33 @@ from words.state import State
 from words.styles.styles import Size
 
 
+def build_alert_dialog(trophy_number, trophy_description, word):
+    return rx.box(
+         rx.alert_dialog(
+            rx.alert_dialog_overlay(
+                rx.alert_dialog_content(
+                    rx.alert_dialog_header("New tropy!"),
+                    rx.alert_dialog_body(
+                        f"Trophy {trophy_number} - {trophy_description}: {word}.\nCongratulations!"
+                    ),
+                    rx.alert_dialog_footer(
+                        rx.button(
+                            "Close",
+                            on_click=State.trophy_alert_dialog_hide(trophy_number),
+                        )
+                    ),
+                )
+            ),
+            is_open=State.alert_dialog_show[trophy_number],
+        ),
+    )
+
+
 def main_letters_box() -> rx.Component:
     return rx.center(
         rx.box(
             rx.heading(
-                "Today's letters are",
+                "Today's letters are:",
                 font_size=Size.BIG.value,
             ),
             rx.spacer(),
@@ -75,6 +97,7 @@ def main_response() -> rx.Component:
     return rx.box(
         rx.vstack(
             rx.text(State.response[0]),
+            rx.spacer(),
             rx.text(
                 rx.span(
                     State.response[1][0],
@@ -88,40 +111,25 @@ def main_response() -> rx.Component:
 
 def main_home() -> rx.Component:
     return rx.box(
-
-        rx.vstack(
-
-            main_letters_box(),
-
-            rx.spacer(),
-
-            main_form(),
-
-            rx.spacer(),
-
-            main_response(),
-            
-            rx.box(
-                rx.alert_dialog(
-                    rx.alert_dialog_overlay(
-                        rx.alert_dialog_content(
-                            rx.alert_dialog_header("New tropy!"),
-                            rx.alert_dialog_body(
-                                f"Trophy {State.trophy_number_to_show} - {State.trophy_description_to_show}: {State.data['word']}.\nCongratulations!"
-                            ),
-                            rx.alert_dialog_footer(
-                                rx.button(
-                                    "Close",
-                                    on_click=State.trophy_alert_dialog_hide,
-                                )
-                            ),
-                        )
-                    ),
-                    is_open=State.alert_dialog_show,
-                ),
+        rx.center(
+            rx.vstack(
+                main_letters_box(),
+                rx.spacer(),
+                main_form(),
+                rx.spacer(),
+                main_response(),
+                build_alert_dialog(7, State.trophies_description[7], State.data["word"]),
+                build_alert_dialog(6, State.trophies_description[6], State.data["word"]),
+                build_alert_dialog(5, State.trophies_description[5], State.data["word"]),
+                build_alert_dialog(4, State.trophies_description[4], State.data["word"]),
+                build_alert_dialog(3, State.trophies_description[3], State.data["word"]),
+                build_alert_dialog(2, State.trophies_description[2], State.data["word"]),
+                build_alert_dialog(1, State.trophies_description[1], State.data["word"]),
             ),
+            height="50vh",
         ),
         flex_grow="1",
         # border_width="medium",
         align_items="center",
+        min_w="1024px",
     )
