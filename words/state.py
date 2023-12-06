@@ -47,7 +47,7 @@ class State(rx.State):
     data["player_name"]: str = ""
     data["player_id"]: str = "0"
     data["points_total"]: int = 0
-    data["ranking"] = db.read_rankings_from_db()
+    data["ranking"]: List[Tuple[str, int]] = db.read_rankings_from_db()
     data["stats"]: List[Tuple[int, int, int]] = [
         (2,0,0),
         (3,0,0),
@@ -81,7 +81,7 @@ class State(rx.State):
     def ranking_longest_word_button_handler(self):
        self.data["ranking_selected"] = "longest_word"
        self.data["ranking_period"] = self.radio_value.lower()
-       self.data["ranking"] = db.read_rankings_from_db(
+       self.data["ranking"]: List[Tuple[str, int]] = db.read_rankings_from_db(
            ranking_type=self.data["ranking_selected"],
            period=self.data["ranking_period"])
 
@@ -89,7 +89,7 @@ class State(rx.State):
     def ranking_more_words_button_handler(self):
        self.data["ranking_selected"] = "more_words"
        self.data["ranking_period"] = self.radio_value.lower()
-       self.data["ranking"] = db.read_rankings_from_db(
+       self.data["ranking"]: List[Tuple[str, int]] = db.read_rankings_from_db(
            ranking_type=self.data["ranking_selected"],
            period=self.data["ranking_period"])
 
@@ -97,7 +97,7 @@ class State(rx.State):
     def ranking_top_points_button_handler(self):
        self.data["ranking_selected"] = "top_points"
        self.data["ranking_period"] = self.radio_value.lower()
-       self.data["ranking"] = db.read_rankings_from_db(
+       self.data["ranking"]: List[Tuple[str, int]] = db.read_rankings_from_db(
            ranking_type=self.data["ranking_selected"],
            period=self.data["ranking_period"])
     
@@ -109,7 +109,7 @@ class State(rx.State):
     def reload_static_data(self):
         self.data["points_total"]: int = db.read_points_from_db(self.data["player_id"])
         self.data["words_log"]: list = db.read_words_log_from_db(self.data["player_id"])
-        self.data["ranking"] = db.read_rankings_from_db()
+        self.data["ranking"]: List[Tuple[str, int]] = db.read_rankings_from_db()
         self.data["global_values_today"]: List[int | float] = db.read_global_values_from_db()
         
 
@@ -130,7 +130,7 @@ class State(rx.State):
 
     def submit_word_handler(self, form_data: dict):
         self.form_data = form_data
-        self.data["word"] = self.form_data["word"]
+        self.data["word"] = self.form_data["word"].lower()
         bl.readfdb_checkword_assingpoints_writetdb(self)
 
 
