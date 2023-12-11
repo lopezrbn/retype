@@ -253,11 +253,11 @@ def read_points_from_db(player_id):
 def read_rankings_from_db(ranking_type: str = "top_points", period: str = "day"):
     query = create_rankings_query(ranking_type=ranking_type, period=period)
     result = connect_to_db(query=query, select=True)
-    if len(result) < 10:
-        for _ in range(len(result), 10):
+    if len(result) < 5:
+        for _ in range(len(result), 5):
             result.append(("No player", 0))
     result_int = []
-    for i in range(10):
+    for i in range(5):
         result_int.append((result[i][0], int(result[i][1])))
     return result_int
 

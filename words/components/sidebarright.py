@@ -44,11 +44,6 @@ def sidebarright_table() -> rx.Component:
                 ("3", State.data["ranking"][2][0], State.data["ranking"][2][1]),
                 ("4", State.data["ranking"][3][0], State.data["ranking"][3][1]),
                 ("5", State.data["ranking"][4][0], State.data["ranking"][4][1]),
-                ("6", State.data["ranking"][5][0], State.data["ranking"][5][1]),
-                ("7", State.data["ranking"][6][0], State.data["ranking"][6][1]),
-                ("8", State.data["ranking"][7][0], State.data["ranking"][7][1]),
-                ("9", State.data["ranking"][8][0], State.data["ranking"][8][1]),
-                ("10", State.data["ranking"][9][0], State.data["ranking"][9][1]),
             ],
         )
     )
