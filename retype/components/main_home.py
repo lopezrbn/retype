@@ -1,7 +1,7 @@
 import reflex as rx
 
-from words.state import State
-from words.styles.styles import Size
+from retype.state import State
+from retype.styles.styles import Size
 
 
 def build_alert_dialog(trophy_number, trophy_description, word):

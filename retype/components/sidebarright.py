@@ -1,6 +1,6 @@
 import reflex as rx
 
-from words.state import State
+from retype.state import State
 
 
 def sidebarright_form() -> rx.Component:

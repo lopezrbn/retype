@@ -2,9 +2,9 @@ import reflex as rx
 from typing import List, Dict, Tuple
 from datetime import timedelta, date
 
-import words.database as db
-import words.db_connection as db_connection
-import words.business_logic as bl
+import retype.database as db
+import retype.db_connection as db_connection
+import retype.business_logic as bl
 
 
 def insert_new_lines_in_str(text, every=75):

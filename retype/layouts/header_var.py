@@ -1,8 +1,8 @@
 import reflex as rx
 from datetime import datetime
 
-from words.state import State
-from words.styles.styles import Size
+from retype.state import State
+from retype.styles.styles import Size
 
 
 def header_var() -> rx.Component:

@@ -1,6 +1,6 @@
 import reflex as rx
 
-from words.state import State
+from retype.state import State
 
 
 def main_form() -> rx.Component:

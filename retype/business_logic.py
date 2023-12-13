@@ -2,7 +2,7 @@ import random
 import requests
 from datetime import datetime, date
 
-import words.database as db
+import retype.database as db
 
 
 def check_trophies(State) -> dict:
