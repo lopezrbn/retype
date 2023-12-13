@@ -22,11 +22,19 @@ These parts are:
    - Configuration of the communication between database and web app using MySQLConnector/Python.
    - Design of all the SQL queries needed to serve the data to the web app.
 
+Other aspects used in Rety.pe project:
+
+- Use of an open source dictionary API to check the introduced words
+   - Credits to [Free Dictionary API](https://dictionaryapi.dev/)
+- Use of cookies to remember the player name and information about the session.
+- Use of [Brand Kit Generator](https://www.hubspot.com/brand-kit-generator) web tool to design the web logo, colors, fonts, etc.
+
 
 Previous versions of the project also used:
 
 - Flask/Python for the back-end.
 - Google Cloud Platform for the deployment.
+- Google's Firebase to develop a login system using email/password or integration with Google email.
 
 
 ## Cloning the repository
@@ -38,6 +46,51 @@ git clone https://github.com/lopezrbn/retype.git
 ```
 
 Then open the folder in your prefered IDE (examples are taken from Visual Studio Code)
+
+
+## Edit of configuration files
+
+Once virtual environment is setup, next step is to edit three specific configuration files: `rxconfig-example.py`, `db_connection-example.py` and `db_creation_example.py`.
+
+### rxconfig-example.py file
+
+This is the file that tells Reflex how to build your project. An example file is supplied, but it will be needed to adapt it to your project specifics.
+
+The example file is configured to be valid in both configurations: local testing in development mode; and final build in production mode to be hosted in the server. For the moment we will only cover the development mode, so changes to this file will be minimum. Later in this tutorial we will see the deployment of the app in a VPS.
+
+Then the only change made to this file will be renaming it from `rxconfig-example.py` to `rxconfig.py`.
+
+### db_connection-example.py file
+
+This file holds the data to make the connection with your database. For security reasons, an example blank file is supplied, so it will be needed to customize it with the data of your database.
+
+Then the changes are:
+1. Rename the file from `db_connection-example.py` to just `db_connection.py`. Then, open the file.
+2. Enter the user to access the database. The default value is usually `"root"`, but take whatever it works for you.
+3. Enter the host in which the database will be stored. If it is going to be stored in the same machine you will be running Reflex, just use `"localhost"`. Otherwise, just use the IP of the server in which the database will be stored.
+4. Enter the name of your database. The default value used for the project is `"retype"`, but again use whatever it works for you.
+5. Finally, enter the password for your database.
+
+
+### db_creation-example.py file
+
+This script is designed to be executed once and create the database structure and tables.
+
+This tutorial assumes MySQL properly installed and configured in the system using the credentials defined in the above file `db_connection.py`. A new tutorial will be developed to go deeper into the installation and configuration of MySQL.
+
+Again an example file is supplied which will be needed to modify.
+
+The changes are:
+1. Rename the file from `db_creation-example.py` to just `db_creation.py`. Then, open the file.
+2. Go to line 56 and copy the exact same values that you used in the `db_connection-example.py` file (now renamed to `db_connection.py`) in the four parameters showed: `"user"`, `"host"`, `"database"` and `"password`.
+3. Finally, execute the script. Being located in the parent directory of the project:
+
+   ```
+   cd retype
+   ```
+   ```
+   python3 db_creation.py
+   ```
 
 
 ## Creation of virtual environment and installation of requirements
@@ -71,39 +124,7 @@ pip install -r requirements.txt
 ```
 
 
-## Edit of configuration files
 
-Once virtual environment is setup, next step is to edit three specific configuration files: `rxconfig-example.py`, `db_connection-example.py` and `db_creation_example.py`.
-
-### rxconfig-example.py file
-
-This is the file that tells Reflex how to build your project. An example file is supplied, but it will be needed to adapt it to your project specifics.
-
-The example file is configured to be valid in both configurations: local testing in development mode; and final build in production mode to be hosted in the server. For the moment we will only cover the development mode, so changes to this file will be minimum. Later in this tutorial we will see the deployment of the app in a VPS.
-
-Then the only change made to this file will be renaming it from `rxconfig-example.py` to `rxconfig.py`.
-
-### db_connection-example.py file
-
-This file holds the data to make the connection with your database. For security reasons, an example blank file is supplied, so it will be needed to customize it with the data of your database.
-
-Then the changes are:
-1. Rename the file from `db_connection-example.py` to just `db_connection.py`. Then, open the file.
-2. Enter the user to access the database. The default value is usually `"root"`, but take whatever it works for you.
-3. Enter the host in which the database will be stored. If it is going to be stored in the same machine you will be running Reflex, just use `"localhost"`. Otherwise, just use the IP of the server in which the database will be stored.
-4. Enter the name of your database. The default value used for the project is `"retype"`, but again use whatever it works for you.
-5. Finally, enter the password for your database.
-
-
-### db_creation-example.py file
-
-This script is designed to be executed once and create the database structure and tables.
-
-Again an example file is supplied which will be needed to modify.
-
-The changes are:
-1. Rename the file from `db_creation-example.py` to just `db_creation.py`. Then, open the file.
-2. Go to line 56 and copy the exact same values that you used in the `db_connection-example.py` file (now renamed to `db_connection.py`) in the four parameters showed: `"user"`, `"host"`, `"database"` and `"password`.
 
 
 ## Running of Reflex
@@ -135,11 +156,16 @@ In order to not make this tutorial too long, a new one will be developed to show
 
 * 0.1.0
     * First release of the game
+ 
+
+## Acknowledgements
+
+Special thanks to Javi López <mail@javilopezg.com> for giving me the idea of developing the game as a consolidation project to all the additional knowledge needed to deploy a data science solution, but specially for acting as my mentor during this time, guiding both the professional and the personal path. Thanks, buddy!
 
 
 ## Contact
 
-Rubén López – lopezrbn@gmail.com
+Rubén López – <lopezrbn@gmail.com>
 
 Distributed under the XYZ license. See ``LICENSE`` for more information.
 
