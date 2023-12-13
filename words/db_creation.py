@@ -1,6 +1,5 @@
 from mysql.connector import connect, Error
 from contextlib import closing
-import socket
 from typing import Dict, List
 
 import trophies_description as td
@@ -52,11 +51,10 @@ def create_table_query(table_name, table_vars):
 if __name__ == "__main__":
 
     # database parameters
-    db = {
-        "user": "ubuntu" if socket.gethostname() == "vps-955fe093" else "root",
-        "host": "localhost",
-        "database": "words_game",
-        "password": "tartadequeso"
+    db = {"user": "your_database_user",         # same user that you set when creating the database
+        "host": "your_database_host",           # "localhost" as default
+        "database": "your_database_name",       # "retype" as default
+        "password": "your_database_password"    # same password that you set when creating the database
     }
 
     # names of tables to be created
