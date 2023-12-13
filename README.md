@@ -1,7 +1,7 @@
 # Rety.pe - A words game
 > Rety.pe is a browser words finding game given seven letters that change every day.
 
-![](header.png)
+![](screenshot.png)
 
 Rety.pe is a words finding game but it was originally developed as a project to be exposed in my personal portfolio as a Data Scientist, to demonstrate key abilities and knowdledge in this field.
 
@@ -9,10 +9,24 @@ Specifically, Rety.pe project gathers all the parts sorrounding the deployment o
 
 These parts are:
 
-- Creation of a web app as UI 
+- Development of a web app as UI
+   - Front and back-end developed using [Reflex](https://reflex.dev/), a new technology that allows building web apps in pure Python.
+   - Development of the full control logic of the game using Python.
+- Deployment of the web page via self hosting in a VPS
+   - Configuration of the server with a stack using Linux (Ubuntu 23.10), Nginx, MySQL and Python.
+   - Configuration of Nginx as web server using reverse proxy and websockets to communicate front with back-end.
+   - Configuration of Reflex as a system service to run indefinitely as a background process.
+- Creation of a database using MySQL
+   - Creation of the database, designing structure, tables, columns and data types.
+   - Hosting of the database in the VPS.
+   - Configuration of the communication between database and web app using MySQLConnector/Python.
+   - Design of all the SQL queries needed to serve the data to the web app.
 
 
+Previous versions of the project also used:
 
+- Flask/Python for the back-end.
+- Google Cloud Platform for the deployment.
 
 
 ## Installation
@@ -29,12 +43,6 @@ Windows:
 edit autoexec.bat
 ```
 
-## Usage example
-
-A few motivating and useful examples of how your product can be used. Spice this up with code blocks and potentially more screenshots.
-
-_For more examples and usage, please refer to the [Wiki][wiki]._
-
 ## Development setup
 
 Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
@@ -46,39 +54,13 @@ npm test
 
 ## Release History
 
-* 0.2.1
-    * CHANGE: Update docs (module code remains unchanged)
-* 0.2.0
-    * CHANGE: Remove `setDefaultXYZ()`
-    * ADD: Add `init()`
-* 0.1.1
-    * FIX: Crash when calling `baz()` (Thanks @GenerousContributorName!)
 * 0.1.0
-    * The first proper release
-    * CHANGE: Rename `foo()` to `bar()`
-* 0.0.1
-    * Work in progress
-
+    * First release of the game
+      
 ## Meta
 
-Your Name – [@YourTwitter](https://twitter.com/dbader_org) – YourEmail@example.com
+Rubén López – lopezrbn@gmail.com
 
 Distributed under the XYZ license. See ``LICENSE`` for more information.
 
-[https://github.com/yourname/github-link](https://github.com/dbader/)
-
-## Contributing
-
-1. Fork it (<https://github.com/yourname/yourproject/fork>)
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
-
-<!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
-[travis-image]: https://img.shields.io/travis/dbader/node-datadog-metrics/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/dbader/node-datadog-metrics
-[wiki]: https://github.com/yourname/yourproject/wiki
+[https://github.com/lopezrbn/words](https://github.com/lopezrbn/words/)
