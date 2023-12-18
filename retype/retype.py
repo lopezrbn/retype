@@ -8,6 +8,8 @@ from .pages.trophies import trophies
 from .pages.dbpetitions import dbpetitions
 
 
+title = "Rety.pe - A game of words"
+
 # Add state and page to the app.
 app = rx.App(
     state=State,
@@ -15,26 +17,26 @@ app = rx.App(
 )
 app.add_page(
     index,
-    title="Rety.pe - A words game",
+    title=title,
 )
 app.add_page(
     home,
-    title="Rety.pe - A words game",
+    title=title,
     on_load=[State.reload_static_data, State.reload_day_letters],
 )
 app.add_page(
     stats,
-    title="Rety.pe - A words game",
+    title=title,
     on_load=[State.reload_static_data, State.load_stats],
 )
 app.add_page(
     trophies,
-    title="Rety.pe - A words game",
+    title=title,
     on_load=[State.reload_static_data, State.load_trophies],
 )
 app.add_page(
     dbpetitions,
-    title="Rety.pe - A words game",
+    title=title,
     on_load=State.reload_static_data,
 ),
 app.compile()
