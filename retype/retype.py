@@ -38,4 +38,3 @@ app.add_page(
     title=title,
     on_load=State.reload_static_data,
 ),
-app.compile()
