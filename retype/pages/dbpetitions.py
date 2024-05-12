@@ -8,7 +8,7 @@ from ..components.main_dbpetitions import main_dbpetitions
 
 
 def dbpetitions() -> rx.Component:
-    return rx.box(
+    return rx.chakra.box(
         nav_bar(),
         header_var(),
         main_dbpetitions(),
