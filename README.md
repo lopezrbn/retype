@@ -81,9 +81,8 @@ This tutorial assumes MySQL is properly installed and configured in the system u
 Again an example file is supplied which will be needed to modify.
 
 The changes are:
-1. Rename the file from `db_creation-example.py` to just `db_creation.py`. Then, open the file.
-2. Go to line 56 and copy the same values that you used in the `db_connection-example.py` file (now renamed to `db_connection.py`) in the four parameters showed: `"user"`, `"host"`, `"database"` and `"password`.
-3. Finally, execute the script. Being located in the parent directory of the project:
+1. Go to your favourite MySQL client and create the database: CREATE DATABASE retype;
+2. Finally, execute the script. Being located in the parent directory of the project:
 
    ```
    cd retype
@@ -97,25 +96,25 @@ The changes are:
 
 To assure the compatibility of the project with every system, we will use a virtual environment in which we will install all the required dependencies.
 
-Firstly, install virtualenv:
+Firstly, install reflex and after that install virtualenv:
 ```
 pip install virtualenv
 ```
 
-Then, we create a virtual environment using `venv`, and call it `venv`:
+Then, we create a virtual environment using `venv`, and call it `myvenv`:
 ```
-python3 -m venv venv
+python3 -m venv myvenv
 ```
 
 Now, activate the virtual environment:
 
 > Linux/MAC:   
 ```
-source venv/bin/activate
+source myvenv/bin/activate
 ```
 > Windows:
 ```
-.\venv\Scripts/activate
+.\myvenv\Scripts/activate
 ```
 
 Finally, installation of requirements:
@@ -129,7 +128,7 @@ pip install -r requirements.txt
 Once at this point, the project is configured to be run and show the web app in a local environment.
 
 Just go to your terminal and:
-1. Make `reflex init` to initialize Reflex. This will create a whole structure of new folders and files with everything that Reflex needs to render your web app after compilation.
+1. Make `reflex init` to initialize Reflex. This will create a whole structure of new folders and files with everything that Reflex needs to render your web app after compilation. 
 2. Then `reflex run` to initialize compilation.
    1. Reflex will start the compilation and you will see something similar to the following:
    ![image](https://github.com/lopezrbn/retype/assets/113603061/29b6149a-11a4-4dfe-8e86-951718b3bcdd)
@@ -157,7 +156,7 @@ To not make this tutorial too long, a new one will be developed to show how to c
 
 ## Acknowledgements
 
-Special thanks to Javi López <mail@javilopezg.com> for giving me the idea of developing the game as a consolidation project to all the additional knowledge needed to deploy a data science solution, but especially for acting as my mentor during this time, guiding both the professional and the personal path. Thanks, buddy!
+Special thanks to Javi López @javilopezg for giving me the idea of developing the game as a consolidation project to all the additional knowledge needed to deploy a data science solution, but especially for acting as my mentor during this time, guiding both the professional and the personal path. Thanks, buddy!
 
 
 ## Contact

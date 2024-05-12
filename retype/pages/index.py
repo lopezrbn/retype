@@ -4,19 +4,19 @@ from ..state import State
 
 
 def index():
-    return rx.center(
-        rx.vstack(
+    return rx.chakra.center(
+        rx.chakra.vstack(
             rx.cond(
                State.player_name_cookie,
-               rx.box(
-                  rx.center(
-                     rx.vstack(
-                        rx.image(
+               rx.chakra.box(
+                  rx.chakra.center(
+                     rx.chakra.vstack(
+                        rx.chakra.image(
                             src="/main-logo-transparent.png",
                         ),
-                        rx.heading(f"Welcome back to rety.pe,\n", State.player_name_cookie, f"!"),
-                        rx.spacer(),
-                        rx.button(
+                        rx.chakra.heading(f"Welcome back to rety.pe,\n", State.player_name_cookie, f"!"),
+                        rx.chakra.spacer(),
+                        rx.chakra.button(
                            "Log in",
                            on_click=State.login_handler()
                         ),
@@ -24,21 +24,21 @@ def index():
                      height="90vh",
                   ),
                ),
-               rx.box(
-                  rx.center(
-                     rx.vstack(
-                        rx.image(
+               rx.chakra.box(
+                  rx.chakra.center(
+                     rx.chakra.vstack(
+                        rx.chakra.image(
                            src="/main-logo-transparent.png",
                         ),
-                        rx.heading("Welcome to rety.pe!"),
-                        rx.spacer(),
-                        rx.input(
+                        rx.chakra.heading("Welcome to rety.pe!"),
+                        rx.chakra.spacer(),
+                        rx.chakra.input(
                            placeholder="Enter your name",
                            value=State.text_player_name_input,
                            on_change=State.set_text_player_name_input,
                         ),
-                        rx.spacer(),
-                        rx.button(
+                        rx.chakra.spacer(),
+                        rx.chakra.button(
                            "Log in",
                            on_click=lambda: State.write_cookies(State.text_player_name_input),
                         ),

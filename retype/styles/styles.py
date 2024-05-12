@@ -26,48 +26,48 @@ class Size(Enum):
 
 # Styles
 BASE_STYLE = {
-    rx.Box: {
+    rx.chakra.Box: {
         "margin": Size.SMALL.value,
         # "border_width": "medium",
         "border_radius": "lg",
         "border_color": SEC_COLOR,
         # "padding": Size.SMALL.value,
     },
-    rx.Button: {
+    rx.chakra.Button: {
         "display": "block",
         "padding": Size.SMALL.value,
         "border_radius": Size.MEDIUM.value,
         "bg": SEC_COLOR,
         "color": TEXT_COLOR,
     },
-    rx.Divider: {
+    rx.chakra.Divider: {
         "color": SEC_COLOR,
         "border_width": "thin",
     },
-    rx.Heading: {
+    rx.chakra.Heading: {
         "color": TEXT_COLOR,
         "text_align": "center",
         "font_size": Size.MEDIUM_BIG.value,
     },
-    rx.Input: {
+    rx.chakra.Input: {
         "border_color": SEC_COLOR,
         "border_width": "medium",
         "color": TEXT_COLOR,
         # "text_align": "center",
     },
-    rx.Link: {
+    rx.chakra.Link: {
         "text_decoration": "underline",
         # "_hover": {},
         "color": TEXT_COLOR,
         # "font_size": Size.MEDIUM_BIG.value,
     },
-    rx.RadioGroup: {
+    rx.chakra.RadioGroup: {
         "color": TEXT_COLOR,
         # "color_scheme": "red",
         # "border_width": "medium",
         # "accent_color": "red",
     },
-    rx.Table: {
+    rx.chakra.Table: {
         # "color": TEXT_COLOR,
         # "variant": "stripped",
         # "color_scheme": "teal",
@@ -81,7 +81,7 @@ BASE_STYLE = {
         # "border_bottom_color": "red",
         # "border_bottom": ["1px", "solid", "black"]
     },
-    rx.Text: {
+    rx.chakra.Text: {
         "color": TEXT_COLOR,
         "text_align": "center",
     },

@@ -4,30 +4,30 @@ from retype.state import State
 
 
 def nav_bar() -> rx.Component:
-    return rx.box(
-        rx.hstack(
-            rx.link(
+    return rx.chakra.box(
+        rx.chakra.hstack(
+            rx.chakra.link(
                 "Home",
                 href="/home"
             ),
-            rx.link(
+            rx.chakra.link(
                 "Stats",
                 href="/stats"
             ),
-            rx.link(
+            rx.chakra.link(
                 "Trophies",
                 href="/trophies"
             ),
-            rx.spacer(),
-            rx.text(
+            rx.chakra.spacer(),
+            rx.chakra.text(
                 "Logged in as ",
-                rx.span(
-                    rx.link(
+                rx.chakra.span(
+                    rx.chakra.link(
                         f"{State.data['player_name']}",
                         href="/"
                     ),
                 ),
             ),
         ),
-        rx.divider(),
+        rx.chakra.divider(),
     )
