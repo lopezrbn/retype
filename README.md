@@ -156,7 +156,7 @@ To not make this tutorial too long, a new one will be developed to show how to c
 
 ## Acknowledgements
 
-Special thanks to Javi López <mail@javilopezg.com> for giving me the idea of developing the game as a consolidation project to all the additional knowledge needed to deploy a data science solution, but especially for acting as my mentor during this time, guiding both the professional and the personal path. Thanks, buddy!
+Special thanks to Javi López @javilopezg for giving me the idea of developing the game as a consolidation project to all the additional knowledge needed to deploy a data science solution, but especially for acting as my mentor during this time, guiding both the professional and the personal path. Thanks, buddy!
 
 
 ## Contact
