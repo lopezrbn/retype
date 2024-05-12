@@ -5,8 +5,6 @@ from typing import Dict, List
 
 import trophies_description as td
 
-from db_connection import db
-
 
 def connect_to_db(query: str):
     try:
@@ -17,7 +15,15 @@ def connect_to_db(query: str):
                 print("Query correctly executed.\n\n")
                 return None
     except Error as e:
-        print(f"ERROR {e}\n\n")
+        print(f"{e}\n\n")
+        # return e
+
+
+def create_db_query(db_name):
+    query = f"CREATE DATABASE {db_name}"
+    print(f"Query: create database {db_name}")
+    print(f"\n\t{query}\n")
+    return query
 
 
 def create_insert_trophies_description_query(trophies_description: Dict) -> str:
@@ -45,7 +51,13 @@ def create_table_query(table_name, table_vars):
 
 if __name__ == "__main__":
 
-    
+    # database parameters
+    db = {
+        "user": "your_database_user",           # default "root"
+        "host": "your_database_host",           # default "localhost". It can also be your host server ip.
+        "database": "your_database_name",       # default "retype"
+        "password": "your_database_password"    # your password
+    }
 
     # names of tables to be created
     table_names = ["day_letters", "players", "words", "trophies_description", "trophies_earned"]
@@ -99,6 +111,10 @@ if __name__ == "__main__":
             "FOREIGN KEY(player_id) REFERENCES players(id)"
         )
     ]
+
+    # create database
+    query = create_db_query(db_name=db['database'])
+    connect_to_db(query=query)
 
     # create tables
     for table_name, table_vars in zip(table_names, tables_vars):
