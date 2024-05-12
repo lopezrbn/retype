@@ -6,17 +6,17 @@ from retype.styles.styles import Size
 
 
 def header_var() -> rx.Component:
-    return rx.box(
-        rx.hstack(
-            rx.link(
-                rx.image(src="/main-logo-transparent.png"),
+    return rx.chakra.box(
+        rx.chakra.hstack(
+            rx.chakra.link(
+                rx.chakra.image(src="/main-logo-transparent.png"),
                 href="./home",
             ),
-            rx.heading(
+            rx.chakra.heading(
                 State.date_today,
                 font_size= Size.MEDIUM_BIG.value,
             ),
             align_items="center",
         ),
-        rx.divider(),
+        rx.chakra.divider(),
     )

@@ -8,8 +8,8 @@ from ..components.main_trophies import main_trophies
 
 
 def trophies() -> rx.Component:
-    return rx.center(
-        rx.box(
+    return rx.chakra.center(
+        rx.chakra.box(
             nav_bar(),
             header_var(),
             main_trophies(),

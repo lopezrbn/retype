@@ -5,8 +5,8 @@ from ..components.sidebarright import sidebarright
 
 
 def body(*args) -> rx.Component:
-    return rx.flex(
-        rx.flex(
+    return rx.chakra.flex(
+        rx.chakra.flex(
             *args,
             sidebarleft(),
             align="stretch",

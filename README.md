@@ -128,7 +128,7 @@ pip install -r requirements.txt
 Once at this point, the project is configured to be run and show the web app in a local environment.
 
 Just go to your terminal and:
-1. Make `reflex init` to initialize Reflex. This will create a whole structure of new folders and files with everything that Reflex needs to render your web app after compilation.
+1. Make `reflex init` to initialize Reflex. This will create a whole structure of new folders and files with everything that Reflex needs to render your web app after compilation. 
 2. Then `reflex run` to initialize compilation.
    1. Reflex will start the compilation and you will see something similar to the following:
    ![image](https://github.com/lopezrbn/retype/assets/113603061/29b6149a-11a4-4dfe-8e86-951718b3bcdd)
