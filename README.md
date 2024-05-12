@@ -81,9 +81,8 @@ This tutorial assumes MySQL is properly installed and configured in the system u
 Again an example file is supplied which will be needed to modify.
 
 The changes are:
-1. Rename the file from `db_creation-example.py` to just `db_creation.py`. Then, open the file.
-2. Go to line 56 and copy the same values that you used in the `db_connection-example.py` file (now renamed to `db_connection.py`) in the four parameters showed: `"user"`, `"host"`, `"database"` and `"password`.
-3. Finally, execute the script. Being located in the parent directory of the project:
+1. Create the database using your prefered MySQL client with the query: CREATE DATABASE retype; 
+2. Finally, execute the script. Being located in the parent directory of the project:
 
    ```
    cd retype
