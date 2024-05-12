@@ -102,20 +102,20 @@ Firstly, install virtualenv:
 pip install virtualenv
 ```
 
-Then, we create a virtual environment using `venv`, and call it `venv`:
+Then, we create a virtual environment using `venv`, and call it `myvenv`:
 ```
-python3 -m venv venv
+python3 -m venv myvenv
 ```
 
 Now, activate the virtual environment:
 
 > Linux/MAC:   
 ```
-source venv/bin/activate
+source myvenv/Scripts/activate
 ```
 > Windows:
 ```
-.\venv\Scripts/activate
+.\myvenv\Scripts\activate
 ```
 
 Finally, installation of requirements:
