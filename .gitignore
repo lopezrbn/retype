@@ -7,7 +7,7 @@
 __init__.py
 __pycache__/
 db_connection.py
+myvenv/
 rxconfig.py
 test.py
 venv/
-myvenv/
