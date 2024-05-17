@@ -8,7 +8,7 @@ from ..components.main_home import main_home
 
 
 def home() -> rx.Component:
-    return rx.box(
+    return rx.chakra.box(
         nav_bar(),
         header_var(),
         body(main_home()),

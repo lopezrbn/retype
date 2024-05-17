@@ -4,8 +4,8 @@ from retype.state import State
 
 
 def sidebarleft_table() -> rx.Component:
-    return rx.table_container(
-        rx.table(
+    return rx.chakra.table_container(
+        rx.chakra.table(
             headers=["#", "Word"],
             rows=State.words_log_to_show,
         )
@@ -13,19 +13,19 @@ def sidebarleft_table() -> rx.Component:
 
 
 def sidebarleft() -> rx.Component:
-    return rx.box(
+    return rx.chakra.box(
 
-        rx.box(
-            rx.vstack(
-                rx.heading("Your points"),
-                rx.text(State.data["points_total"]),
+        rx.chakra.box(
+            rx.chakra.vstack(
+                rx.chakra.heading("Your points"),
+                rx.chakra.text(State.data["points_total"]),
             ),
         ),
 
-        rx.divider(),
+        rx.chakra.divider(),
         
-        rx.box(
-            rx.heading("Your words"),
+        rx.chakra.box(
+            rx.chakra.heading("Your words"),
             sidebarleft_table(),
         ),
 

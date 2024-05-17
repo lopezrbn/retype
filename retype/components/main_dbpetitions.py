@@ -4,15 +4,15 @@ from retype.state import State
 
 
 def main_form() -> rx.Component:
-    return rx.form(
-        rx.vstack(
-            rx.input(
+    return rx.chakra.form(
+        rx.chakra.vstack(
+            rx.chakra.input(
                 placeholder="Enter a valid query",
                 value = State.db_petition_query,
                 id="query",
                 on_change=State.set_db_petition_query,
             ),
-            rx.select(
+            rx.chakra.select(
                 [
                     "SELECT * FROM words",
                     "SELECT * FROM players",
@@ -28,16 +28,16 @@ def main_form() -> rx.Component:
                 placeholder="Select a query",
                 on_change=State.set_db_petition_query,
             ),
-            rx.password(
+            rx.chakra.password(
                 placeholder="Enter the db password",
                 on_change=State.set_db_petition_password_entered,
             ),
-            rx.hstack(
-                rx.button(
+            rx.chakra.hstack(
+                rx.chakra.button(
                     "Submit",
                     type_="submit",
                 ),
-                rx.button(
+                rx.chakra.button(
                     "Reset",
                     type_="reset",
                     on_click=State.set_db_petition_query(""),
@@ -49,10 +49,10 @@ def main_form() -> rx.Component:
 
 
 def main_response() -> rx.Component:
-    return rx.box(
-        rx.vstack(
-            rx.text(State.db_petition_warning_message),
-            rx.table(
+    return rx.chakra.box(
+        rx.chakra.vstack(
+            rx.chakra.text(State.db_petition_warning_message),
+            rx.chakra.table(
                     # headers=["Letters", "Found", "Total found", "%"],
                     rows=State.db_petition_output,
                     text_align="center",
@@ -62,11 +62,11 @@ def main_response() -> rx.Component:
 
 
 def main_dbpetitions() -> rx.Component:
-    return rx.box(
-        rx.center(
-            rx.vstack(
+    return rx.chakra.box(
+        rx.chakra.center(
+            rx.chakra.vstack(
                 main_form(),
-                rx.spacer(),
+                rx.chakra.spacer(),
                 main_response(),
             ),
         ),

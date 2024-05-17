@@ -8,8 +8,8 @@ from ..components.main_stats import main_stats
 
 
 def stats() -> rx.Component:
-    return rx.center(
-        rx.box(
+    return rx.chakra.center(
+        rx.chakra.box(
             nav_bar(),
             header_var(),
             main_stats(),

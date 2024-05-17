@@ -50,7 +50,7 @@ Then open the folder in your preferred IDE (examples are taken from Visual Studi
 
 ## Edit of configuration files
 
-Once the virtual environment is set up, the next step is to edit three specific configuration files: `rxconfig-example.py`, `db_connection-example.py` and `db_creation_example.py`.
+Once the virtual environment is set up, the next step is to edit three specific configuration files: `rxconfig-example.py` and `db_connection-example.py`.
 
 ### rxconfig-example.py file
 
@@ -72,18 +72,14 @@ Then the changes are:
 5. Finally, enter the password for your database.
 
 
-### db_creation-example.py file
+### db_creation.py file
 
 This script is designed to be executed once and create the database structure and tables.
 
 This tutorial assumes MySQL is properly installed and configured in the system using the credentials defined in the above file `db_connection.py`. A new tutorial will be developed to go deeper into the installation and configuration of MySQL.
 
-Again an example file is supplied which will be needed to modify.
-
-The changes are:
-1. Rename the file from `db_creation-example.py` to just `db_creation.py`. Then, open the file.
-2. Go to line 56 and copy the same values that you used in the `db_connection-example.py` file (now renamed to `db_connection.py`) in the four parameters showed: `"user"`, `"host"`, `"database"` and `"password`.
-3. Finally, execute the script. Being located in the parent directory of the project:
+1. Create the Database `CREATE DATABASE retype;`
+2. Finally, execute the script `db_creation.py`. Being located in the parent directory of the project:
 
    ```
    cd retype
@@ -102,20 +98,20 @@ Firstly, install virtualenv:
 pip install virtualenv
 ```
 
-Then, we create a virtual environment using `venv`, and call it `venv`:
+Then, we create a virtual environment using `venv`, and call it `myvenv`:
 ```
-python3 -m venv venv
+python3 -m venv myvenv
 ```
 
 Now, activate the virtual environment:
 
 > Linux/MAC:   
 ```
-source venv/bin/activate
+source myvenv/Scripts/activate
 ```
 > Windows:
 ```
-.\venv\Scripts/activate
+.\myvenv\Scripts\activate
 ```
 
 Finally, installation of requirements:

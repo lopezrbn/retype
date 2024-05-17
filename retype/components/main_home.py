@@ -5,16 +5,16 @@ from retype.styles.styles import Size
 
 
 def build_alert_dialog(trophy_number, trophy_description, word):
-    return rx.box(
-         rx.alert_dialog(
-            rx.alert_dialog_overlay(
-                rx.alert_dialog_content(
-                    rx.alert_dialog_header("New tropy!"),
-                    rx.alert_dialog_body(
+    return rx.chakra.box(
+         rx.chakra.alert_dialog(
+            rx.chakra.alert_dialog_overlay(
+                rx.chakra.alert_dialog_content(
+                    rx.chakra.alert_dialog_header("New tropy!"),
+                    rx.chakra.alert_dialog_body(
                         f"Trophy {trophy_number} - {trophy_description}: {word}.\nCongratulations!"
                     ),
-                    rx.alert_dialog_footer(
-                        rx.button(
+                    rx.chakra.alert_dialog_footer(
+                        rx.chakra.button(
                             "Close",
                             on_click=State.trophy_alert_dialog_hide(trophy_number),
                         )
@@ -27,39 +27,39 @@ def build_alert_dialog(trophy_number, trophy_description, word):
 
 
 def main_letters_box() -> rx.Component:
-    return rx.center(
-        rx.box(
-            rx.heading(
+    return rx.chakra.center(
+        rx.chakra.box(
+            rx.chakra.heading(
                 "Today's letters are:",
                 font_size=Size.BIG.value,
             ),
-            rx.spacer(),
-            rx.button_group(
-                rx.button(
+            rx.chakra.spacer(),
+            rx.chakra.button_group(
+                rx.chakra.button(
                     State.data["day_letters"][0],
                     on_click=State.set_button_letter(State.data["day_letters"][0]),
                 ),
-                rx.button(
+                rx.chakra.button(
                     State.data["day_letters"][1],
                     on_click=State.set_button_letter(State.data["day_letters"][1]),
                 ),
-                rx.button(
+                rx.chakra.button(
                     State.data["day_letters"][2],
                     on_click=State.set_button_letter(State.data["day_letters"][2]),
                 ),
-                rx.button(
+                rx.chakra.button(
                     State.data["day_letters"][3],
                     on_click=State.set_button_letter(State.data["day_letters"][3]),
                 ),
-                rx.button(
+                rx.chakra.button(
                     State.data["day_letters"][4],
                     on_click=State.set_button_letter(State.data["day_letters"][4]),
                 ),
-                rx.button(
+                rx.chakra.button(
                     State.data["day_letters"][5],
                     on_click=State.set_button_letter(State.data["day_letters"][5]),
                 ),
-                rx.button(
+                rx.chakra.button(
                     State.data["day_letters"][6],
                     on_click=State.set_button_letter(State.data["day_letters"][6]),
                 ),
@@ -69,20 +69,20 @@ def main_letters_box() -> rx.Component:
 
 
 def main_form() -> rx.Component:
-    return rx.form(
-        rx.vstack(
-            rx.input(
+    return rx.chakra.form(
+        rx.chakra.vstack(
+            rx.chakra.input(
                 placeholder="Enter a word",
                 value = State.compound_text,
                 id="word",
                 on_change=State.set_text_to_show
             ),
-            rx.hstack(
-                rx.button(
+            rx.chakra.hstack(
+                rx.chakra.button(
                     "Submit",
                     type_="submit",
                 ),
-                rx.button(
+                rx.chakra.button(
                     "Reset",
                     type_="reset",
                     on_click=State.set_text_to_show(""),
@@ -94,12 +94,12 @@ def main_form() -> rx.Component:
 
 
 def main_response() -> rx.Component:
-    return rx.box(
-        rx.vstack(
-            rx.text(State.response[0]),
-            rx.spacer(),
-            rx.text(
-                rx.span(
+    return rx.chakra.box(
+        rx.chakra.vstack(
+            rx.chakra.text(State.response[0]),
+            rx.chakra.spacer(),
+            rx.chakra.text(
+                rx.chakra.span(
                     State.response[1][0],
                     as_="i"
                 ),
@@ -110,13 +110,13 @@ def main_response() -> rx.Component:
 
 
 def main_home() -> rx.Component:
-    return rx.box(
-        rx.center(
-            rx.vstack(
+    return rx.chakra.box(
+        rx.chakra.center(
+            rx.chakra.vstack(
                 main_letters_box(),
-                rx.spacer(),
+                rx.chakra.spacer(),
                 main_form(),
-                rx.spacer(),
+                rx.chakra.spacer(),
                 main_response(),
                 build_alert_dialog(7, State.trophies_description[7], State.data["word"]),
                 build_alert_dialog(6, State.trophies_description[6], State.data["word"]),
