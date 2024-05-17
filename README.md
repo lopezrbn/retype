@@ -78,7 +78,8 @@ This script is designed to be executed once and create the database structure an
 
 This tutorial assumes MySQL is properly installed and configured in the system using the credentials defined in the above file `db_connection.py`. A new tutorial will be developed to go deeper into the installation and configuration of MySQL.
 
-1. Finally, execute the script `db_creation.py`. Being located in the parent directory of the project:
+1. Create the Database `CREATE DATABASE retype;`
+2. Finally, execute the script `db_creation.py`. Being located in the parent directory of the project:
 
    ```
    cd retype
