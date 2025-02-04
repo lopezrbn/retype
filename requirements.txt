@@ -1,3 +1,3 @@
-reflex
-mysql-connector-python
-requests
+mysql-connector-python==9.2.0
+reflex==0.6.8
+requests==2.32.3
