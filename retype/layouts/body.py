@@ -1,4 +1,4 @@
-import reflex as rx
+import reflex_chakra as rx
 
 from ..components.sidebarleft import sidebarleft
 from ..components.sidebarright import sidebarright

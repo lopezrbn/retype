@@ -1,14 +1,15 @@
 *.db
 *.py[cod]
 .idea/
+.venv/
 .vscode/
 .web
 .web/
 __init__.py
 __pycache__/
+assets/external/
 db_connection.py
 db_creation.py
 rxconfig.py
 test.py
 venv/
-.venv/

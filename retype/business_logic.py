@@ -3,6 +3,7 @@ import requests
 from datetime import datetime, date
 
 import retype.database as db
+from retype.db_connection import db as db_conn
 
 
 def check_trophies(State) -> dict:
@@ -23,7 +24,7 @@ def check_trophy1(State) -> bool:
     # Trophy description: Discover a word for the first time today
     query = f"""
         SELECT 1
-        FROM retype_game.words
+        FROM {db_conn["database"]}.words
         WHERE word = '{State.data["word"]}' AND DATE(date_creation) = '{date.today()}';
     """
     result = db.connect_to_db(query=query, select=True)
@@ -37,7 +38,7 @@ def check_trophy2(State) -> bool:
     # Trophy description: Discover a word for the first time ever
     query = f"""
         SELECT 1
-        FROM retype_game.words
+        FROM {db_conn["database"]}.words
         WHERE word = '{State.data["word"]}';
     """
     result = db.connect_to_db(query=query, select=True)
@@ -50,7 +51,7 @@ def check_trophy3(State) -> bool:
     # Trophy description: Discover the longest word of a day
     query = f"""
         SELECT MAX(no_letters)
-        FROM retype_game.words
+        FROM {db_conn["database"]}.words
         WHERE DATE(date_creation) = '{date.today()}'
     """
     print("Query: ")
@@ -78,7 +79,7 @@ def check_trophy4(State) -> bool:
     # Trophy description: Discover the longest word so far ever
     query = f"""
         SELECT MAX(no_letters)
-        FROM retype_game.words
+        FROM {db_conn["database"]}.words
     """
     result = db.connect_to_db(query=query, select=True)[0][0]
     if result is None:

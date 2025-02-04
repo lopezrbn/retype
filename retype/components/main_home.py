@@ -1,4 +1,4 @@
-import reflex as rx
+import reflex_chakra as rx
 
 from retype.state import State
 from retype.styles.styles import Size

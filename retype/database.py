@@ -45,7 +45,7 @@ def create_global_values_query(query_number):
     query = f"""
         WITH t1 as (
             SELECT {variables}, DATE(date_creation) AS date
-            FROM retype_game.words
+            FROM {db["database"]}.words
             {group_by}
             HAVING date = "{today}"
         )
@@ -112,8 +112,8 @@ def create_rankings_query(ranking_type: str, period: str) -> str:
         # {ranking_type} - {period}
         WITH t1 as (
             SELECT p.id, p.name, DATE(o.date_creation) AS date, {grouped_by_var_0} AS grouped_by_var
-            FROM retype_game.players AS p
-            INNER JOIN retype_game.words AS o
+            FROM {db["database"]}.players AS p
+            INNER JOIN {db["database"]}.words AS o
                 ON p.id = o.player_id
             {group_by_0}
             HAVING date BETWEEN "{start_daterange}" AND "{end_daterange}"
@@ -170,13 +170,13 @@ def get_stats_from_db(player_id: int) -> list:
     for i in range(2, 9):
         query_total_words = f"""
             SELECT COUNT(DISTINCT word)
-            FROM retype_game.words
+            FROM {db["database"]}.words
             WHERE no_letters = {i}
         """
 
         query_user_words = f"""
             SELECT COUNT(DISTINCT word)
-            FROM retype_game.words
+            FROM {db["database"]}.words
             WHERE no_letters = {i} AND player_id = {player_id}
         """
 

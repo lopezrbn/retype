@@ -1,4 +1,4 @@
-import reflex as rx
+import reflex_chakra as rx
 from datetime import datetime
 
 from retype.state import State

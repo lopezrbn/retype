@@ -1,4 +1,4 @@
-import reflex as rx
+import reflex_chakra as rx
 
 from ..layouts.nav_bar import nav_bar
 from ..layouts.header_var import header_var
