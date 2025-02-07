@@ -54,6 +54,7 @@ BASE_STYLE = {
         "border_width": "medium",
         "color": TEXT_COLOR,
         # "text_align": "center",
+        "placeholder_color": TEXT_COLOR,
     },
     rx.link: {
         "text_decoration": "underline",

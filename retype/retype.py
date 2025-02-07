@@ -12,7 +12,15 @@ title = "Rety.pe - A game of words"
 
 # Add state and page to the app.
 app = rx.App(
-    style=styles.BASE_STYLE
+    style=styles.BASE_STYLE,
+    theme=rx.theme(
+        appearance= "light",
+        colors={
+            "background": styles.PRIM_COLOR,
+            "primary": styles.SEC_COLOR,
+            "text": styles.TEXT_COLOR,
+        },
+    ),
 )
 app.add_page(
     index,
