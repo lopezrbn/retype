@@ -75,7 +75,14 @@ def main_form() -> rx.Component:
                 placeholder="Enter a word",
                 value = State.compound_text,
                 id="word",
-                on_change=State.set_text_to_show
+                on_change=State.set_text_to_show,
+                style={
+                    "border": "2px solid #ccc",
+                    "borderRadius": "5px",
+                    "outline": "none",
+                    "padding": "8px",
+                    "transition": "border 0.3s ease-in-out",
+                },
             ),
             rx.hstack(
                 rx.button(
