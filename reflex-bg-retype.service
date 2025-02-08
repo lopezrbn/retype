@@ -1,0 +1,17 @@
+[Unit]
+Description=Retype Reflex Background Service
+After=network.target
+
+[Service]
+User=your_username
+Type=simple
+WorkingDirectory=/path/to/retype
+Environment="PATH=/home/ubuntu/retype/.venv/bin:/usr/bin"
+ExecStartPre=/home/<your_username>/retype/<virtual_environment>/bin/python3 -m reflex init
+ExecStart=/home/<your_username>/retype/<virtual_environment>/bin/python3 -m reflex run --env prod --loglevel info
+RemainAfterExit=yes
+TimeoutSec=0
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
