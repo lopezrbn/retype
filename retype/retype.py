@@ -8,7 +8,7 @@ from .pages.trophies import trophies
 from .pages.dbpetitions import dbpetitions
 
 
-title = "Rety.pe - A game of words"
+title = "Retype - A game of words"
 
 # Add state and page to the app.
 app = rx.App(
