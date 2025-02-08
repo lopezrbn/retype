@@ -50,10 +50,10 @@ Follow these steps after cloning the repository:
 
 1. **Clone the Repository**
 
-```bash
-git clone https://github.com/lopezrbn/retype.git
-cd retype
-```
+    ```bash
+    git clone https://github.com/lopezrbn/retype.git
+    cd retype
+    ```
 
 2. **Configure Reflex Settings**
 
@@ -81,11 +81,11 @@ cd retype
       sudo apt install mysql-server
       ```
 
-    Then secure your installation:
+    - Then secure your installation:
 
-    ```bash
-    sudo mysql_secure_installation
-    ```
+      ```bash
+      sudo mysql_secure_installation
+      ```
 
 4. **Initialize the Database**
 
@@ -106,38 +106,6 @@ reflex run [--env dev|prod] [--loglevel debug]
 - **Options:**
   - `--env`: Specify the environment (development or production).
   - `--loglevel`: Set the log level (e.g., debug) for detailed output.
-
-**Note:** The application remains active only while the `reflex run` process is executing. Stopping this process will make the web app unavailable.
-
-## Deployment and System Service
-
-For a production-ready deployment, it is recommended to run Reflex as a background system service. This can be achieved by creating a systemd service file (e.g., `reflex-bg-retype.service`).
-
-A basic example of a systemd service file:
-
-```ini
-[Unit]
-Description=Retype Reflex Background Service
-After=network.target
-
-[Service]
-User=your_username
-WorkingDirectory=/path/to/retype
-ExecStart=/usr/local/bin/reflex run --env prod --loglevel info
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-```
-
-To enable and start the service:
-
-```bash
-sudo cp reflex-bg-retype.service /etc/systemd/system/
-sudo systemctl daemon-reload
-sudo systemctl enable reflex-bg-retype.service
-sudo systemctl start reflex-bg-retype.service
-```
 
 ## Nginx Reverse Proxy Configuration
 
@@ -172,18 +140,68 @@ server {
 
 In this example:
 - Requests to the root URL (%) are forwarded to the frontend (port 3000).
-- Requests to `/api/` are routed to the backend (port 8000).
+- Requests to `/_event` are routed to the backend (port 8000).
 
-Make sure to replace `yourdomain.com` or `IP_address` with your actual domain or server IP. After creating or updating your Nginx configuration, test the configuration with:
+Make sure to replace `yourdomain.com` or `IP_address` with your actual domain or server IP.
 
-```bash
-nginx -t
+**Steps to Configure Nginx**
+
+1. **Copy the provided Nginx configuration file** to the correct location:
+    ```bash
+    sudo cp nginx-retype.conf /etc/nginx/sites-available/retype.conf
+    ```
+
+2. **Create a symbolic link** in `sites-enabled` to activate the configuration:
+    ```bash
+    sudo ln -s /etc/nginx/sites-available/retype.conf /etc/nginx/sites-enabled/
+    ```
+
+3. **Test the Nginx configuration** to ensure there are no syntax errors:
+    ```bash
+    sudo nginx -t
+    ```
+
+4. **Reload Nginx** to apply the new configuration:
+    ```bash
+    sudo systemctl reload nginx
+    ```
+
+5. **Ensure Nginx is running and enabled at startup**:
+    ```bash
+    sudo systemctl enable nginx
+    sudo systemctl start nginx
+    ```
+
+## Deployment and System Service
+
+The application remains active only while the `reflex run` process is executing. Stopping this process will make the web app unavailable.
+
+For a production-ready deployment, it is recommended to run Reflex as a background system service. This can be achieved by creating a systemd service file (e.g., `reflex-bg-retype.service`).
+
+A basic example of a systemd service file:
+
+```ini
+[Unit]
+Description=Retype Reflex Background Service
+After=network.target
+
+[Service]
+User=your_username
+WorkingDirectory=/path/to/retype
+ExecStart=/usr/local/bin/reflex run --env prod --loglevel info
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
 ```
 
-If the test is successful, reload Nginx to apply the changes:
+To enable and start the service:
 
 ```bash
-sudo systemctl reload nginx
+sudo cp reflex-bg-retype.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable reflex-bg-retype.service
+sudo systemctl start reflex-bg-retype.service
 ```
 
 ## Acknowledgements
