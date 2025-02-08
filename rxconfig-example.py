@@ -1,7 +1,11 @@
 import reflex as rx
 import socket
+frontend_port=<frontend_port>
+backend_port=<backend_port>
+
 
 config = rx.Config(
     app_name="retype",
-    api_url=("https://your-domain.com" if socket.gethostname() == "your-hostname" else "http://localhost:8000"),
+    frontend_port=frontend_port,
+    backend_port=backend_port,
 )
