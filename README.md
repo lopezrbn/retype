@@ -58,34 +58,42 @@ cd retype
 2. **Configure Reflex Settings**
 
     - Create a new file called `rxconfig.py` by copying `rxconfig-example.py`:
-```bash
-cp rxconfig-example.py rxconfig.py
-```
+
+      ```bash
+      cp rxconfig-example.py rxconfig.py
+      ```
+
     - Edit `rxconfig.py` to include your custom settings. This file is essential for configuring Reflex (e.g., server settings, ports, environment variables).
 
 3. **Set Up Database Connection**
 
     - Similarly, create `db-connection.py` from the provided example:
-```bash
-cp db-connection-example.py db-connection.py
-```
+
+      ```bash
+      cp db-connection-example.py db-connection.py
+      ```
+
     - Update `db-connection.py` with your MySQL credentials. The project assumes that MySQL is installed on your system.
     To install MySQL on a Debian/Ubuntu-based system:
-```bash
-sudo apt update
-sudo apt install mysql-server
-```
+
+      ```bash
+      sudo apt update
+      sudo apt install mysql-server
+      ```
+
     Then secure your installation:
-```bash
-sudo mysql_secure_installation
-```
+
+    ```bash
+    sudo mysql_secure_installation
+    ```
 
 4. **Initialize the Database**
 
     - Run the `db_creation.py` script to create the necessary database and tables:
-```bash
-python db_creation.py
-```
+
+      ```bash
+      python db_creation.py
+      ```
 
 ## Running the Application
 
